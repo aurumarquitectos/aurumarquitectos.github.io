@@ -1,0 +1,144 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+
+const sheetId = process.env.AURUM_CONTENT_SHEET_ID?.trim();
+const outputPath = path.resolve("content/site-content.json");
+
+const gids = {
+  content: process.env.AURUM_GID_CONTENT || "1148000214",
+  projects: process.env.AURUM_GID_PROJECTS || "746865260",
+  services: process.env.AURUM_GID_SERVICES || "1889524806",
+  method: process.env.AURUM_GID_METHOD || "92008991",
+  faq: process.env.AURUM_GID_FAQ || "1594220214",
+  lists: process.env.AURUM_GID_LISTS || "717783492",
+  theme: process.env.AURUM_GID_THEME || "67188492",
+};
+
+if (!sheetId) {
+  console.log("AURUM_CONTENT_SHEET_ID no está configurado; se conserva el contenido aprobado del repositorio.");
+  process.exit(0);
+}
+
+function parseCsv(input) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+  for (let index = 0; index < input.length; index += 1) {
+    const char = input[index];
+    if (quoted) {
+      if (char === '"' && input[index + 1] === '"') {
+        cell += '"';
+        index += 1;
+      } else if (char === '"') {
+        quoted = false;
+      } else {
+        cell += char;
+      }
+    } else if (char === '"') {
+      quoted = true;
+    } else if (char === ",") {
+      row.push(cell);
+      cell = "";
+    } else if (char === "\n") {
+      row.push(cell.replace(/\r$/, ""));
+      rows.push(row);
+      row = [];
+      cell = "";
+    } else {
+      cell += char;
+    }
+  }
+  if (cell || row.length) {
+    row.push(cell.replace(/\r$/, ""));
+    rows.push(row);
+  }
+  return rows.filter((values) => values.some((value) => value.trim() !== ""));
+}
+
+function normalize(value) {
+  return String(value ?? "").trim();
+}
+
+function records(rows) {
+  const [header, ...body] = rows;
+  if (!header) return [];
+  const names = header.map((value) => normalize(value).toLowerCase());
+  return body.map((values) => Object.fromEntries(names.map((name, index) => [name, normalize(values[index])])));
+}
+
+function enabled(value) {
+  return ["sí", "si", "true", "1", "yes"].includes(normalize(value).toLowerCase());
+}
+
+function order(value, fallback) {
+  const parsed = Number.parseInt(normalize(value), 10);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+async function load(gid, label) {
+  const url = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(sheetId)}/export?format=csv&gid=${encodeURIComponent(gid)}`;
+  const response = await fetch(url, { headers: { "user-agent": "aurum-content-sync/1.0" } });
+  if (!response.ok) {
+    throw new Error(`${label}: Google Sheets respondió HTTP ${response.status}. Confirma que la hoja permita lectura por enlace.`);
+  }
+  return records(parseCsv(await response.text()));
+}
+
+const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, themeRows] = await Promise.all([
+  load(gids.content, "CONTENIDO"),
+  load(gids.projects, "PROYECTOS"),
+  load(gids.services, "SERVICIOS"),
+  load(gids.method, "METODO"),
+  load(gids.faq, "FAQ"),
+  load(gids.lists, "LISTAS"),
+  load(gids.theme, "TEMA"),
+]);
+
+const content = Object.fromEntries(contentRows.filter((row) => row.clave).map((row) => [row.clave, {
+  section: row["sección"] || row.seccion || "",
+  field: row.campo || "",
+  text: row.texto || "",
+  href: row.enlace || "",
+  image: row.imagen || "",
+  active: enabled(row.activo),
+}]));
+
+const data = {
+  version: 1,
+  updatedAt: new Date().toISOString(),
+  content,
+  projects: projectRows.filter((row) => row.id).map((row, index) => ({
+    order: order(row.orden, index + 1), id: row.id, name: row.nombre, category: row["categoría"] || row.categoria,
+    description: row["descripción"] || row.descripcion, image: row.imagen, alt: row.alt, href: row.enlace,
+    active: enabled(row.activo), featured: enabled(row.destacado), challenge: row.reto, response: row.respuesta,
+  })),
+  services: serviceRows.filter((row) => row["título"] || row.titulo).map((row, index) => ({
+    order: order(row.orden, index + 1), number: normalize(row["número"] || row.numero).padStart(2, "0"),
+    title: row["título"] || row.titulo, text: row.texto, active: enabled(row.activo),
+  })),
+  method: methodRows.filter((row) => row["título"] || row.titulo).map((row, index) => ({
+    order: order(row.orden, index + 1), number: normalize(row["número"] || row.numero).padStart(2, "0"),
+    title: row["título"] || row.titulo, text: row.texto, active: enabled(row.activo),
+  })),
+  faq: faqRows.filter((row) => row.pregunta).map((row, index) => ({
+    order: order(row.orden, index + 1), question: row.pregunta, answer: row.respuesta, active: enabled(row.activo),
+  })),
+  lists: listRows.filter((row) => row.grupo && row.texto).map((row, index) => ({
+    group: row.grupo, order: order(row.orden, index + 1), text: row.texto, detail: row.detalle,
+    href: row.enlace, active: enabled(row.activo),
+  })),
+  theme: Object.fromEntries(themeRows.filter((row) => row.clave && enabled(row.activo)).map((row) => [row.clave, row.valor])),
+};
+
+const required = ["brand.name", "hero.title", "hero.primaryCta", "contact.primaryCta"];
+for (const key of required) {
+  if (!data.content[key]?.text) throw new Error(`Falta contenido obligatorio: ${key}`);
+}
+if (!data.projects.some((project) => project.active)) throw new Error("Debe existir al menos un proyecto activo.");
+if (!data.services.some((service) => service.active)) throw new Error("Debe existir al menos un servicio activo.");
+
+await fs.mkdir(path.dirname(outputPath), { recursive: true });
+await fs.writeFile(outputPath, `${JSON.stringify(data, null, 2)}\n`);
+console.log(`Contenido sincronizado: ${data.projects.length} proyectos, ${data.services.length} servicios, ${data.faq.length} preguntas.`);

@@ -1,0 +1,786 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-15T00:00:00.000Z",
+  "content": {
+    "brand.name": {
+      "section": "header",
+      "field": "Nombre de marca",
+      "text": "Aurum Arquitectos",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "header.location": {
+      "section": "header",
+      "field": "Ubicación",
+      "text": "Hermosillo · Sonora",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "header.cta": {
+      "section": "header",
+      "field": "Botón principal",
+      "text": "Comenzar",
+      "href": "#contacto",
+      "image": "",
+      "active": true
+    },
+    "hero.eyebrow": {
+      "section": "hero",
+      "field": "Pre-título",
+      "text": "Arquitectura para la vida detrás de ella",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.title": {
+      "section": "hero",
+      "field": "Título",
+      "text": "Tu forma de vivir.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.titleAccent": {
+      "section": "hero",
+      "field": "Título destacado",
+      "text": "Hecha arquitectura.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.copy": {
+      "section": "hero",
+      "field": "Descripción",
+      "text": "Diseñamos residencias con identidad, claridad y valor que permanece. Cada decisión empieza en la vida que quieres construir.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.image": {
+      "section": "hero",
+      "field": "Fotografía",
+      "text": "",
+      "href": "",
+      "image": "https://aurumarquitectos.github.io/aurum/hero.jpg",
+      "active": true
+    },
+    "hero.imageAlt": {
+      "section": "hero",
+      "field": "Texto alternativo",
+      "text": "Residencia de piedra diseñada por Aurum Arquitectos",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.primaryCta": {
+      "section": "hero",
+      "field": "Botón principal",
+      "text": "Crear mi Perfil · 90 s",
+      "href": "https://alexpueblag.github.io/aurum-experiencia/?utm_source=sitio&utm_medium=web&utm_campaign=perfil_de_vida&utm_content=aurum_nuevo_sitio",
+      "image": "",
+      "active": true
+    },
+    "hero.secondaryCta": {
+      "section": "hero",
+      "field": "Botón secundario",
+      "text": "Ver obra selecta",
+      "href": "#obra",
+      "image": "",
+      "active": true
+    },
+    "intro.kicker": {
+      "section": "estudio",
+      "field": "Frase en inglés",
+      "text": "Architecture for the life behind it.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "intro.title": {
+      "section": "estudio",
+      "field": "Título",
+      "text": "Una casa no debería parecerse a ti.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "intro.titleAccent": {
+      "section": "estudio",
+      "field": "Título destacado",
+      "text": "Debería sentirse como tú.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "intro.copy1": {
+      "section": "estudio",
+      "field": "Párrafo 1",
+      "text": "La forma más costosa de diseñar es empezar por respuestas prestadas. La más inteligente es construir una intención propia.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "intro.copy2": {
+      "section": "estudio",
+      "field": "Párrafo 2",
+      "text": "Por eso nuestro trabajo comienza con tus rituales, tus tensiones y la emoción que quieres encontrar al volver.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "work.title": {
+      "section": "obra",
+      "field": "Título",
+      "text": "No mostramos espacios.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "work.titleAccent": {
+      "section": "obra",
+      "field": "Título destacado",
+      "text": "Mostramos decisiones.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "services.title": {
+      "section": "servicios",
+      "field": "Etiqueta",
+      "text": "Tres escalas · una intención",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.eyebrow": {
+      "section": "perfil",
+      "field": "Pre-título",
+      "text": "Oferta inicial · Perfil de Vida Aurum",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.title": {
+      "section": "perfil",
+      "field": "Título",
+      "text": "Antes de invertir en metros,",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.titleAccent": {
+      "section": "perfil",
+      "field": "Título destacado",
+      "text": "define una dirección propia.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.copy": {
+      "section": "perfil",
+      "field": "Descripción",
+      "text": "Seis decisiones sencillas convierten referencias dispersas en una lectura inicial de cómo quieres sentir, usar y proyectar tu residencia.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.cta": {
+      "section": "perfil",
+      "field": "Botón",
+      "text": "Obtener mi lectura inicial",
+      "href": "https://alexpueblag.github.io/aurum-experiencia/",
+      "image": "",
+      "active": true
+    },
+    "method.title": {
+      "section": "método",
+      "field": "Título",
+      "text": "De una intuición privada a una obra capaz de defender cada decisión.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "patrimony.eyebrow": {
+      "section": "patrimonio",
+      "field": "Pre-título",
+      "text": "Diseño con inteligencia patrimonial",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "patrimony.title": {
+      "section": "patrimonio",
+      "field": "Título",
+      "text": "Obra de autor.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "patrimony.titleAccent": {
+      "section": "patrimonio",
+      "field": "Título destacado",
+      "text": "No un elefante blanco.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "patrimony.copy": {
+      "section": "patrimonio",
+      "field": "Descripción",
+      "text": "Una residencia puede ser profundamente personal sin volverse sobredimensionada o desconectada de su contexto. El lujo más serio está en saber qué merece permanecer.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "patrimony.image": {
+      "section": "patrimonio",
+      "field": "Fotografía",
+      "text": "",
+      "href": "",
+      "image": "https://aurumarquitectos.github.io/aurum/terraza.jpg",
+      "active": true
+    },
+    "fit.title": {
+      "section": "compatibilidad",
+      "field": "Título",
+      "text": "Una buena relación de proyecto también se diseña.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "fit.yesTitle": {
+      "section": "compatibilidad",
+      "field": "Título positivo",
+      "text": "Probablemente encajamos si…",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "fit.noTitle": {
+      "section": "compatibilidad",
+      "field": "Título negativo",
+      "text": "Quizá no somos la firma correcta si…",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "faq.title": {
+      "section": "faq",
+      "field": "Título",
+      "text": "Preguntas que vale la pena resolver.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.eyebrow": {
+      "section": "contacto",
+      "field": "Pre-título",
+      "text": "El siguiente proyecto empieza con una pregunta correcta",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.title": {
+      "section": "contacto",
+      "field": "Título",
+      "text": "¿Cómo quieres",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.titleAccent": {
+      "section": "contacto",
+      "field": "Título destacado",
+      "text": "vivir de verdad?",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.copy": {
+      "section": "contacto",
+      "field": "Descripción",
+      "text": "Puedes descubrirlo en 90 segundos o abrir una conversación directa con el estudio.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.primaryCta": {
+      "section": "contacto",
+      "field": "Botón principal",
+      "text": "Crear mi Perfil de Vida",
+      "href": "https://alexpueblag.github.io/aurum-experiencia/",
+      "image": "",
+      "active": true
+    },
+    "contact.secondaryCta": {
+      "section": "contacto",
+      "field": "Botón secundario",
+      "text": "Agendar Sesión de Claridad",
+      "href": "https://calendar.app.google/Y11D7it7VmER9m1i8",
+      "image": "",
+      "active": true
+    },
+    "footer.claim": {
+      "section": "footer",
+      "field": "Frase",
+      "text": "Arquitectura que vuelve visible una forma de vivir.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "footer.location": {
+      "section": "footer",
+      "field": "Ubicación",
+      "text": "Hermosillo · Sonora · México",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "footer.instagram": {
+      "section": "footer",
+      "field": "Instagram",
+      "text": "Instagram",
+      "href": "https://www.instagram.com/aurumarquitectos/",
+      "image": "",
+      "active": true
+    },
+    "hero.rail1": {
+      "section": "hero",
+      "field": "Línea superior 1",
+      "text": "Hermosillo · Sonora",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.rail2": {
+      "section": "hero",
+      "field": "Línea superior 2",
+      "text": "Residencias de autor · arquitectura e interiores",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.rail3": {
+      "section": "hero",
+      "field": "Línea superior 3",
+      "text": "Proyectos por compatibilidad",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "hero.index": {
+      "section": "hero",
+      "field": "Código visual",
+      "text": "AU — 001",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "intro.label": {
+      "section": "estudio",
+      "field": "Etiqueta de sección",
+      "text": "La idea Aurum",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "work.label": {
+      "section": "obra",
+      "field": "Etiqueta de sección",
+      "text": "Obra selecta · retos de diseño",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.badgeValue": {
+      "section": "perfil",
+      "field": "Valor del círculo",
+      "text": "90",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.badgeLabel": {
+      "section": "perfil",
+      "field": "Texto del círculo",
+      "text": "segundos",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.note": {
+      "section": "perfil",
+      "field": "Nota bajo botón",
+      "text": "Sin costo · sin compromiso",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "method.label": {
+      "section": "método",
+      "field": "Etiqueta de sección",
+      "text": "Método Aurum",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "patrimony.imageAlt": {
+      "section": "patrimonio",
+      "field": "Texto alternativo",
+      "text": "Terraza exterior con materialidad cálida",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "fit.label": {
+      "section": "compatibilidad",
+      "field": "Etiqueta de sección",
+      "text": "Compatibilidad antes que presión",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "faq.label": {
+      "section": "faq",
+      "field": "Etiqueta de sección",
+      "text": "Antes de conversar",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "footer.copyright": {
+      "section": "footer",
+      "field": "Derechos",
+      "text": "© 2026 Aurum Arquitectos",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "footer.code": {
+      "section": "footer",
+      "field": "Código visual",
+      "text": "AU — ARCH / 005",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "nav.contactLabel": {
+      "section": "navegación",
+      "field": "Contacto móvil",
+      "text": "Contacto",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "work.projectCta": {
+      "section": "obra",
+      "field": "Acción de proyecto",
+      "text": "Ver proyecto",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "work.challengeLabel": {
+      "section": "obra",
+      "field": "Etiqueta del reto",
+      "text": "El reto",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "work.responseLabel": {
+      "section": "obra",
+      "field": "Etiqueta de respuesta",
+      "text": "La respuesta",
+      "href": "",
+      "image": "",
+      "active": true
+    }
+  },
+  "projects": [
+    {
+      "order": 1,
+      "id": "casa-zara",
+      "name": "Casa Zara",
+      "category": "Residencia · familia de cinco",
+      "description": "Estar juntos, sin dejar de tener un mundo propio.",
+      "image": "https://aurumarquitectos.github.io/aurum/casa-zara.jpg",
+      "alt": "Cocina cálida abierta al jardín, Casa Zara",
+      "href": "https://www.instagram.com/aurumarquitectos/p/DZn9u4CjfMP/",
+      "active": true,
+      "featured": true,
+      "challenge": "Un gran espacio para recibir y lugares íntimos para cada integrante.",
+      "response": "Una arquitectura que cambia de escala con la vida familiar."
+    },
+    {
+      "order": 2,
+      "id": "casa-mona",
+      "name": "Casa Mona",
+      "category": "Residencial",
+      "description": "Privacidad real y apertura hacia la mejor vista.",
+      "image": "https://aurumarquitectos.github.io/aurum/interior.jpg",
+      "alt": "Sala contemporánea con vista al jardín, Casa Mona",
+      "href": "https://www.instagram.com/aurumarquitectos/p/DYBdTd9FQbH/",
+      "active": true,
+      "featured": false,
+      "challenge": "",
+      "response": ""
+    },
+    {
+      "order": 3,
+      "id": "casa-autor",
+      "name": "Casa de autor",
+      "category": "Residencial",
+      "description": "Tener carácter, sin depender de una moda.",
+      "image": "https://aurumarquitectos.github.io/aurum/terraza.jpg",
+      "alt": "Terraza y comedor exterior de una residencia Aurum",
+      "href": "https://www.instagram.com/aurumarquitectos/",
+      "active": true,
+      "featured": false,
+      "challenge": "",
+      "response": ""
+    }
+  ],
+  "services": [
+    {
+      "order": 1,
+      "number": "01",
+      "title": "Residencial",
+      "text": "Casas concebidas alrededor de una forma específica de vivir, no de una tipología repetida.",
+      "active": true
+    },
+    {
+      "order": 2,
+      "number": "02",
+      "title": "Interiores",
+      "text": "Material, iluminación y mobiliario construyen una sola atmósfera, desde la arquitectura.",
+      "active": true
+    },
+    {
+      "order": 3,
+      "number": "03",
+      "title": "Comercial",
+      "text": "Espacios que hacen tangible el valor de una marca y convierten una visita en confianza.",
+      "active": true
+    }
+  ],
+  "method": [
+    {
+      "order": 1,
+      "number": "01",
+      "title": "Perfil de vida",
+      "text": "Estilo, emociones, hábitos y momentos que importan.",
+      "active": true
+    },
+    {
+      "order": 2,
+      "number": "02",
+      "title": "Sesión de claridad",
+      "text": "Escuchamos el contexto y definimos la decisión que sigue.",
+      "active": true
+    },
+    {
+      "order": 3,
+      "number": "03",
+      "title": "Mapa de potencial",
+      "text": "Traducimos la conversación en prioridades y oportunidades.",
+      "active": true
+    },
+    {
+      "order": 4,
+      "number": "04",
+      "title": "Arquitectura de autor",
+      "text": "Espacio, luz y materialidad responden a una intención.",
+      "active": true
+    },
+    {
+      "order": 5,
+      "number": "05",
+      "title": "Materialización",
+      "text": "Protegemos la idea mientras se convierte en obra.",
+      "active": true
+    }
+  ],
+  "faq": [
+    {
+      "order": 1,
+      "question": "¿Necesito tener terreno para empezar?",
+      "answer": "No. Podemos comenzar antes de adquirirlo y convertir tu forma de vivir en criterios útiles para evaluar ubicación, orientación y potencial.",
+      "active": true
+    },
+    {
+      "order": 2,
+      "question": "¿Aurum diseña también los interiores?",
+      "answer": "Sí. Arquitectura e interiores se desarrollan como una sola experiencia para evitar decisiones fragmentadas al final del proceso.",
+      "active": true
+    },
+    {
+      "order": 3,
+      "question": "¿Cuál es el primer paso formal?",
+      "answer": "El Perfil de Vida es una entrada breve. Si existe compatibilidad, seguimos con una Sesión de Claridad para entender contexto, alcance y horizonte.",
+      "active": true
+    },
+    {
+      "order": 4,
+      "question": "¿Trabajan fuera de Hermosillo?",
+      "answer": "Sí, cuando el proyecto y la forma de colaboración permiten proteger el criterio de diseño y la calidad de la ejecución.",
+      "active": true
+    }
+  ],
+  "lists": [
+    {
+      "group": "navegación",
+      "order": 1,
+      "text": "Obra",
+      "detail": "",
+      "href": "#obra",
+      "active": true
+    },
+    {
+      "group": "navegación",
+      "order": 2,
+      "text": "Servicios",
+      "detail": "",
+      "href": "#servicios",
+      "active": true
+    },
+    {
+      "group": "navegación",
+      "order": 3,
+      "text": "Método",
+      "detail": "",
+      "href": "#metodo",
+      "active": true
+    },
+    {
+      "group": "navegación",
+      "order": 4,
+      "text": "Estudio",
+      "detail": "",
+      "href": "#estudio",
+      "active": true
+    },
+    {
+      "group": "principios",
+      "order": 1,
+      "text": "La vida",
+      "detail": "antes que los metros.",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "principios",
+      "order": 2,
+      "text": "Identidad",
+      "detail": "antes que tendencia.",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "principios",
+      "order": 3,
+      "text": "Intención",
+      "detail": "antes que exceso.",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "principios",
+      "order": 4,
+      "text": "Valor que permanece,",
+      "detail": "no un elefante blanco.",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "patrimonio",
+      "order": 1,
+      "text": "Identidad sin capricho",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "patrimonio",
+      "order": 2,
+      "text": "Amplitud sin desperdicio",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "patrimonio",
+      "order": 3,
+      "text": "Materialidad con permanencia",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "patrimonio",
+      "order": 4,
+      "text": "Valor más allá de la primera foto",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "encajamos",
+      "order": 1,
+      "text": "Quieres una casa propia, no una colección de referencias.",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "encajamos",
+      "order": 2,
+      "text": "Valoras el proceso y la calidad de las decisiones.",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "encajamos",
+      "order": 3,
+      "text": "Buscas integrar arquitectura, interiores y experiencia.",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "no_encajamos",
+      "order": 1,
+      "text": "La única variable de decisión es el menor honorario.",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "no_encajamos",
+      "order": 2,
+      "text": "Necesitas copiar una casa existente sin reinterpretarla.",
+      "detail": "",
+      "href": "",
+      "active": true
+    },
+    {
+      "group": "no_encajamos",
+      "order": 3,
+      "text": "Buscas velocidad a costa de criterio y coordinación.",
+      "detail": "",
+      "href": "",
+      "active": true
+    }
+  ],
+  "theme": {
+    "color.ink": "#1C211D",
+    "color.cream": "#F2EFE8",
+    "color.gold": "#B89A5B",
+    "color.sage": "#85917F",
+    "font.display": "Cormorant Garamond",
+    "font.body": "DM Sans"
+  }
+}

@@ -3,6 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -27,6 +29,10 @@ jobs:
           cache: npm
       - name: Configure Pages
         uses: actions/configure-pages@v5
+      - name: Sync content from Google Sheets
+        run: node scripts/sync-sheet-content.mjs
+        env:
+          AURUM_CONTENT_SHEET_ID: ${{ vars.AURUM_CONTENT_SHEET_ID }}
       - name: Install dependencies
         run: npm ci
       - name: Build static site
