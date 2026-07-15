@@ -21,9 +21,15 @@ const fitNo = siteData.lists.filter((item) => item.active && item.group === "no_
 const services = siteData.services.filter((item) => item.active).sort((a, b) => a.order - b.order);
 const method = siteData.method.filter((item) => item.active).sort((a, b) => a.order - b.order);
 const faqs = siteData.faq.filter((item) => item.active).sort((a, b) => a.order - b.order);
-const projects = siteData.projects.filter((item) => item.active).sort((a, b) => a.order - b.order);
+const projects = siteData.projects.filter((item) => item.active).sort((a, b) => a.rank - b.rank || a.order - b.order);
 const featuredProject = projects.find((item) => item.featured) ?? projects[0];
 const projectCards = projects.filter((item) => item.id !== featuredProject?.id);
+const deepCaseProjects = projects.filter((item) => item.detailLevel === "deep" && item.id !== featuredProject?.id);
+const socialPosts = siteData.social
+  .filter((item) => item.active && item.image && item.href)
+  .sort((a, b) => b.score - a.score)
+  .filter((item) => item.featured)
+  .slice(0, 8);
 
 const themeStyle = {
   "--ink": siteData.theme["color.ink"] || "#171714",
@@ -192,7 +198,7 @@ export default function Home() {
             <span className="image-cursor">{text("work.projectCta") || "Ver proyecto"} <Arrow /></span>
           </a>
           <div className="project-copy">
-            <div className="project-number">{String(featuredProject.order).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</div>
+            <div className="project-number">{String(featuredProject.rank).padStart(2, "0")} / {String(projects.length).padStart(2, "0")} · selección por interés</div>
             <p className="eyebrow">{featuredProject.category}</p>
             <h3>{featuredProject.name}</h3>
             <p className="project-thesis">{featuredProject.description}</p>
@@ -205,26 +211,111 @@ export default function Home() {
                 <dt>{text("work.responseLabel") || "La respuesta"}</dt>
                 <dd>{featuredProject.response}</dd>
               </div>
+              <div>
+                <dt>{text("work.resultLabel") || "El resultado"}</dt>
+                <dd>{featuredProject.result}</dd>
+              </div>
             </dl>
+            <p className="project-source-note">{featuredProject.socialPosts} publicaciones relacionadas · {featuredProject.location} · {featuredProject.year}</p>
           </div>
         </article>}
 
         <div className="project-pair section-pad">
-          {projectCards.map((project, index) => (
-            <article key={project.id} className={`project-card ${index % 2 === 0 ? "project-card-tall" : "project-card-wide"}`}>
-              <a href={project.href} target="_blank" rel="noreferrer">
-                <img src={project.image} alt={project.alt} />
+          {projectCards.map((project, index) => {
+            const isDeepCase = project.detailLevel === "deep";
+            return (
+              <article key={project.id} className={`project-card ${index % 2 === 0 ? "project-card-tall" : "project-card-wide"}`}>
+                <a
+                  href={isDeepCase ? `#caso-${project.id}` : project.href}
+                  {...(!isDeepCase ? { target: "_blank", rel: "noreferrer" } : {})}
+                  aria-label={`${isDeepCase ? "Leer caso" : text("work.projectCta") || "Ver proyecto"}: ${project.name}`}
+                >
+                  <img src={project.image} alt={project.alt} loading="lazy" />
+                </a>
+                <div className="project-card-head">
+                  <span>{String(project.rank).padStart(2, "0")} / {project.category}</span>
+                  <Arrow />
+                </div>
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
+              </article>
+            );
+          })}
+        </div>
+
+        {deepCaseProjects.length > 0 && <div className="case-library section-pad">
+          <div className="case-library-heading">
+            <p className="eyebrow light">{text("work.libraryLabel")}</p>
+            <h2>{text("work.libraryTitle")}</h2>
+            <p>{text("work.libraryCopy")}</p>
+          </div>
+          {deepCaseProjects.map((project) => (
+            <article className="case-study" id={`caso-${project.id}`} key={`case-${project.id}`}>
+              <a className="case-study-media" href={project.href} target="_blank" rel="noreferrer">
+                <img src={project.image} alt={project.alt} loading="lazy" />
+                <span>{text("work.sourceLabel") || "Ver publicación fuente"} <Arrow /></span>
               </a>
-              <div className="project-card-head">
-                <span>{String(project.order).padStart(2, "0")} / {project.category}</span>
-                <Arrow />
+              <div className="case-study-copy">
+                <div className="case-study-meta">
+                  <span>{String(project.rank).padStart(2, "0")} · {project.category}</span>
+                  <span>{project.location} · {project.year}</span>
+                </div>
+                <h3>{project.name}</h3>
+                <p className="case-study-thesis">{project.description}</p>
+                <dl>
+                  <div>
+                    <dt>{text("work.challengeLabel") || "El reto"}</dt>
+                    <dd>{project.challenge}</dd>
+                  </div>
+                  <div>
+                    <dt>{text("work.responseLabel") || "La respuesta"}</dt>
+                    <dd>{project.response}</dd>
+                  </div>
+                  <div>
+                    <dt>{text("work.resultLabel") || "El resultado"}</dt>
+                    <dd>{project.result}</dd>
+                  </div>
+                </dl>
+                <p className="case-study-source">{project.socialPosts} publicaciones relacionadas guiaron la profundidad editorial de este caso.</p>
               </div>
-              <h3>{project.name}</h3>
-              <p>{project.description}</p>
+            </article>
+          ))}
+        </div>}
+      </section>
+
+      {socialPosts.length > 0 && <section className="social-radar section-pad" id="redes">
+        <div className="social-radar-heading">
+          <div className="section-label">
+            <span>IG</span>
+            <p>{text("social.label")}</p>
+          </div>
+          <div>
+            <h2>
+              {text("social.title")}
+              <em>{text("social.titleAccent")}</em>
+            </h2>
+            <p>{text("social.copy")}</p>
+          </div>
+        </div>
+        <div className="social-grid">
+          {socialPosts.map((post, index) => (
+            <article className={`social-card ${index === 0 ? "social-card-lead" : ""}`} key={post.id}>
+              <a href={post.href} target="_blank" rel="noreferrer" aria-label={`${text("social.cta")}: ${post.title}`}>
+                <img src={post.image} alt={post.title} loading="lazy" />
+              </a>
+              <div className="social-card-meta">
+                <span>{String(index + 1).padStart(2, "0")} · {post.type}</span>
+                <span>Interés verificado</span>
+              </div>
+              <h3>{post.title}</h3>
+              <p>{post.text}</p>
+              <a className="social-card-link" href={post.href} target="_blank" rel="noreferrer">
+                {text("social.cta")} <Arrow />
+              </a>
             </article>
           ))}
         </div>
-      </section>
+      </section>}
 
       <section className="services section-pad" id="servicios">
         <div className="section-label">

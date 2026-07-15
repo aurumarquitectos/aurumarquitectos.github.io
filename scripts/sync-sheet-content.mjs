@@ -13,6 +13,7 @@ const gids = {
   faq: process.env.AURUM_GID_FAQ || "1594220214",
   lists: process.env.AURUM_GID_LISTS || "717783492",
   theme: process.env.AURUM_GID_THEME || "67188492",
+  social: process.env.AURUM_GID_SOCIAL || "1438801123",
 };
 
 if (!sheetId) {
@@ -77,6 +78,11 @@ function order(value, fallback) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+function metric(value) {
+  const parsed = Number.parseFloat(normalize(value).replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 async function load(gid, label) {
   const url = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(sheetId)}/export?format=csv&gid=${encodeURIComponent(gid)}`;
   const response = await fetch(url, { headers: { "user-agent": "aurum-content-sync/1.0" } });
@@ -86,7 +92,7 @@ async function load(gid, label) {
   return records(parseCsv(await response.text()));
 }
 
-const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, themeRows] = await Promise.all([
+const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, themeRows, socialRows] = await Promise.all([
   load(gids.content, "CONTENIDO"),
   load(gids.projects, "PROYECTOS"),
   load(gids.services, "SERVICIOS"),
@@ -94,6 +100,7 @@ const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, the
   load(gids.faq, "FAQ"),
   load(gids.lists, "LISTAS"),
   load(gids.theme, "TEMA"),
+  load(gids.social, "PUBLICACIONES"),
 ]);
 
 const content = Object.fromEntries(contentRows.filter((row) => row.clave).map((row) => [row.clave, {
@@ -105,15 +112,63 @@ const content = Object.fromEntries(contentRows.filter((row) => row.clave).map((r
   active: enabled(row.activo),
 }]));
 
+const social = socialRows.filter((row) => row["publicación_id"] || row.publicacion_id).map((row) => {
+  const likes = metric(row.likes);
+  const comments = metric(row.comentarios);
+  const reposts = metric(row.reposts);
+  return {
+    date: row.fecha || "",
+    id: row["publicación_id"] || row.publicacion_id,
+    projectId: row.proyecto_id || "",
+    type: row.tipo || "publicación",
+    title: row["título_web"] || row.titulo_web,
+    text: row.copy_web || "",
+    image: row.imagen || "",
+    href: row.enlace || "",
+    likes,
+    comments,
+    reposts,
+    score: metric(row.score) || likes + (comments * 4) + (reposts * 6),
+    active: enabled(row.activo),
+    featured: enabled(row.destacado),
+    notes: row.notas || "",
+  };
+});
+
+const socialByProject = new Map();
+for (const post of social.filter((item) => item.active && item.projectId)) {
+  const current = socialByProject.get(post.projectId) || { score: 0, likes: 0, comments: 0, reposts: 0, posts: 0 };
+  current.score += post.score;
+  current.likes += post.likes;
+  current.comments += post.comments;
+  current.reposts += post.reposts;
+  current.posts += 1;
+  socialByProject.set(post.projectId, current);
+}
+
+const rankedProjects = projectRows.filter((row) => row.id).map((row, index) => {
+  const socialMetrics = socialByProject.get(row.id) || { score: 0, likes: 0, comments: 0, reposts: 0, posts: 0 };
+  return {
+    order: order(row.orden, index + 1), id: row.id, name: row.nombre, category: row["categoría"] || row.categoria,
+    description: row["descripción"] || row.descripcion, image: row.imagen, alt: row.alt, href: row.enlace,
+    active: enabled(row.activo), featured: enabled(row.destacado), challenge: row.reto, response: row.respuesta,
+    result: row.resultado || "", location: row["ubicación"] || row.ubicacion || "", year: row["año"] || row.ano || "",
+    detailPreference: normalize(row.profundidad).toLowerCase() || "auto",
+    socialScore: socialMetrics.score, socialLikes: socialMetrics.likes, socialComments: socialMetrics.comments,
+    socialReposts: socialMetrics.reposts, socialPosts: socialMetrics.posts,
+  };
+}).sort((a, b) => b.socialScore - a.socialScore || a.order - b.order).map((project, index) => ({
+  ...project,
+  rank: index + 1,
+  detailLevel: project.detailPreference === "amplia" ? "deep" : project.detailPreference === "compacta" ? "compact" : index < 4 ? "deep" : "compact",
+}));
+
 const data = {
   version: 1,
   updatedAt: new Date().toISOString(),
   content,
-  projects: projectRows.filter((row) => row.id).map((row, index) => ({
-    order: order(row.orden, index + 1), id: row.id, name: row.nombre, category: row["categoría"] || row.categoria,
-    description: row["descripción"] || row.descripcion, image: row.imagen, alt: row.alt, href: row.enlace,
-    active: enabled(row.activo), featured: enabled(row.destacado), challenge: row.reto, response: row.respuesta,
-  })),
+  projects: rankedProjects,
+  social,
   services: serviceRows.filter((row) => row["título"] || row.titulo).map((row, index) => ({
     order: order(row.orden, index + 1), number: normalize(row["número"] || row.numero).padStart(2, "0"),
     title: row["título"] || row.titulo, text: row.texto, active: enabled(row.activo),
@@ -141,4 +196,4 @@ if (!data.services.some((service) => service.active)) throw new Error("Debe exis
 
 await fs.mkdir(path.dirname(outputPath), { recursive: true });
 await fs.writeFile(outputPath, `${JSON.stringify(data, null, 2)}\n`);
-console.log(`Contenido sincronizado: ${data.projects.length} proyectos, ${data.services.length} servicios, ${data.faq.length} preguntas.`);
+console.log(`Contenido sincronizado: ${data.projects.length} proyectos, ${data.social.length} publicaciones, ${data.services.length} servicios, ${data.faq.length} preguntas.`);
