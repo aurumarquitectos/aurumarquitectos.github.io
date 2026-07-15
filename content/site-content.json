@@ -2,16 +2,16 @@
   "version": 1,
   "updatedAt": "2026-07-15T18:04:43.451Z",
   "system": {
-    "sistema.version": "1.0",
+    "sistema.version": "2.0",
     "fuente.instagram_handle": "aurumarquitectos",
     "fuente.instagram_url": "https://www.instagram.com/aurumarquitectos/",
-    "roles.ingestion_owner": "agente",
-    "roles.approval_owner": "sayri",
-    "flujo.new_status": "descubierto",
-    "flujo.review_status": "esperando_aprobación",
-    "flujo.publish_decision": "aprobar",
-    "flujo.adjust_decision": "ajustar",
-    "flujo.discard_decision": "no_publicar",
+    "roles.ingestion_owner": "automatización_semanal",
+    "roles.approval_owner": "no_aplica",
+    "flujo.new_status": "detectado",
+    "flujo.review_status": "validando",
+    "flujo.publish_decision": "publicar_si_valida",
+    "flujo.adjust_decision": "corregir_automaticamente",
+    "flujo.discard_decision": "bloquear_si_falla",
     "cadence.audit_days": "7",
     "cadence.publish_minutes": "15",
     "ranking.likes_weight": "1",
@@ -31,18 +31,22 @@
     "qa.project_relation": "obligatorio",
     "qa.copy_alignment": "obligatorio",
     "qa.metrics": "obligatorio",
-    "qa.sayri_approval": "obligatorio",
-    "salida.publish_without_approval": "no",
-    "salida.ranking_behavior": "Recalcular el orden con cada integración aprobada.",
-    "salida.failure_behavior": "Mantener la última versión aprobada si falla una validación.",
-    "agente.review_report": "Registrar propuesta, validación y fecha en REVISION.",
-    "agente.forbidden_handoff": "No pedir a Sayri que cree filas, IDs, fórmulas o relaciones técnicas.",
+    "qa.automatic_validation": "obligatorio",
+    "salida.publish_without_approval": "sí",
+    "salida.ranking_behavior": "Recalcular el orden con cada integración validada.",
+    "salida.failure_behavior": "Mantener la última versión estable si falla una validación.",
+    "agente.review_report": "Registrar ejecución, cambios, validación y fecha en BITACORA_AUTOMATICA.",
+    "agente.forbidden_handoff": "No asignar tareas técnicas ni aprobaciones obligatorias a Sayri.",
     "fuente.approved_collaboration_handles": "yodesarrollo",
     "editorial.standalone_project_id": "_editorial",
     "editorial.project_name_rule": "Usar un nombre de proyecto sólo si aparece explícitamente en el caption, hashtag oficial o historia destacada.",
     "editorial.visual_source_rule": "Toda fotografía debe registrar y abrir la publicación o historia exacta de la que proviene.",
     "editorial.story_rule": "Las historias destacadas son fuente primaria válida para confirmar nombres y documentar proceso.",
-    "editorial.reel_rule": "Los reels se integran como evidencia visual del proyecto y conservan su enlace exacto."
+    "editorial.reel_rule": "Los reels se integran como evidencia visual del proyecto y conservan su enlace exacto.",
+    "automation.weekly_schedule": "lunes 08:00 · America/Hermosillo",
+    "automation.scope": "Instagram → Sheet → repositorio → GitHub Pages → verificación pública",
+    "automation.sayri_role": "edición_opcional",
+    "automation.completion_rule": "Publicar y verificar la URL pública en la misma ejecución."
   },
   "content": {
     "brand.name": {
@@ -869,7 +873,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 1,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Nombre y proyecto verificados en el caption original."
@@ -887,7 +891,7 @@
       "comments": 1,
       "reposts": 0,
       "score": 9,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Insight · El Primer Paso"
@@ -905,7 +909,7 @@
       "comments": 1,
       "reposts": 0,
       "score": 16,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Nombre verificado en el caption original."
@@ -923,7 +927,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 11,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Fuente exacta de la imagen de portada del proyecto y de la cocina."
@@ -941,7 +945,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 3,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Nombre verificado en el reel original."
@@ -959,7 +963,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 4,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Fuente exacta de la imagen hero de la landing."
@@ -977,7 +981,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 2,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Colaboración YoDesarrollo × Aurum"
@@ -995,7 +999,7 @@
       "comments": 1,
       "reposts": 1,
       "score": 13,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Insight · Perfil de Vida"
@@ -1013,7 +1017,7 @@
       "comments": 1,
       "reposts": 1,
       "score": 32,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Nombre verificado con #au_casamona en el caption original."
@@ -1031,7 +1035,7 @@
       "comments": 1,
       "reposts": 1,
       "score": 22,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Proyecto verificado en el destacado Casa Alysa; la historia muestra la misma terraza."
@@ -1049,7 +1053,7 @@
       "comments": 0,
       "reposts": 1,
       "score": 11,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Reel del mismo proyecto verificado mediante el destacado Casa Alysa."
@@ -1067,7 +1071,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 5,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Publicación del mismo proyecto verificada contra el destacado Casa Alysa."
@@ -1085,7 +1089,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 4,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Reclasificado: pieza de marca, no caso de proyecto."
@@ -1103,7 +1107,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 5,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Microcaso sin nombre de proyecto publicado; no se usa como nombre propio."
@@ -1121,7 +1125,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 7,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": false,
       "notes": "Proyecto visual sin nombre publicado; se conserva como pieza editorial."
@@ -1139,7 +1143,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 13,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Reel de proyecto sin nombre publicado; no se agrupa bajo un nombre inventado."
@@ -1157,7 +1161,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 17,
-      "approved": true,
+      "validated": true,
       "active": true,
       "featured": true,
       "notes": "Proyecto sin nombre publicado; no se presenta como Casa de autor."
@@ -1173,7 +1177,7 @@
       "href": "https://www.instagram.com/stories/highlights/18574770127007334/",
       "text": "Proceso de obra y decisiones que cambiaron durante la construcción.",
       "active": true,
-      "approved": true,
+      "validated": true,
       "notes": "Fuente primaria: historia destacada oficial."
     },
     {
@@ -1185,7 +1189,7 @@
       "href": "https://www.instagram.com/stories/highlights/17997724154781204/",
       "text": "Cocina, patio central y escenas del proyecto reunidas por Aurum.",
       "active": true,
-      "approved": true,
+      "validated": true,
       "notes": "La historia muestra la cocina del mismo proyecto."
     },
     {
@@ -1197,7 +1201,7 @@
       "href": "https://www.instagram.com/stories/highlights/18083144042067542/",
       "text": "Terraza en segundo piso con vista al lago y decisiones de apertura al paisaje.",
       "active": true,
-      "approved": true,
+      "validated": true,
       "notes": "La historia permitió corregir el nombre antes usado como Casa del Lago."
     }
   ],
