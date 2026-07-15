@@ -25,11 +25,12 @@ const projects = siteData.projects.filter((item) => item.active).sort((a, b) => 
 const featuredProject = projects.find((item) => item.featured) ?? projects[0];
 const projectCards = projects.filter((item) => item.id !== featuredProject?.id);
 const deepCaseProjects = projects.filter((item) => item.detailLevel === "deep" && item.id !== featuredProject?.id);
+const socialGridCount = Number(siteData.system["ranking.social_grid_count"] || 8);
 const socialPosts = siteData.social
   .filter((item) => item.active && item.image && item.href)
   .sort((a, b) => b.score - a.score)
   .filter((item) => item.featured)
-  .slice(0, 8);
+  .slice(0, socialGridCount);
 
 const themeStyle = {
   "--ink": siteData.theme["color.ink"] || "#171714",

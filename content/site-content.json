@@ -1,6 +1,45 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-15T17:21:45.388Z",
+  "updatedAt": "2026-07-15T17:40:12.171Z",
+  "system": {
+    "sistema.version": "1.0",
+    "fuente.instagram_handle": "aurumarquitectos",
+    "fuente.instagram_url": "https://www.instagram.com/aurumarquitectos/",
+    "roles.ingestion_owner": "agente",
+    "roles.approval_owner": "sayri",
+    "flujo.new_status": "descubierto",
+    "flujo.review_status": "esperando_aprobación",
+    "flujo.publish_decision": "aprobar",
+    "flujo.adjust_decision": "ajustar",
+    "flujo.discard_decision": "no_publicar",
+    "cadence.audit_days": "7",
+    "cadence.publish_minutes": "15",
+    "ranking.likes_weight": "1",
+    "ranking.comments_weight": "4",
+    "ranking.reposts_weight": "6",
+    "ranking.deep_case_count": "4",
+    "ranking.social_grid_count": "8",
+    "editorial.grouping_rule": "Agrupar por proyecto arquitectónico, no por formato de publicación.",
+    "editorial.case_structure": "reto|respuesta|resultado",
+    "editorial.depth_rule": "La profundidad depende del engagement agregado del proyecto.",
+    "editorial.voice": "Claro, sobrio, humano y centrado en decisiones de arquitectura.",
+    "editorial.evidence_rule": "No inventar ubicación, año, cliente, programa, materiales ni resultados.",
+    "editorial.image_rule": "Cada imagen debe enlazar a la publicación fuente y explicar la misma decisión que el copy.",
+    "editorial.duplicate_rule": "Una publicación_id sólo puede existir una vez.",
+    "qa.instagram_link": "obligatorio",
+    "qa.public_image": "obligatorio",
+    "qa.project_relation": "obligatorio",
+    "qa.copy_alignment": "obligatorio",
+    "qa.metrics": "obligatorio",
+    "qa.sayri_approval": "obligatorio",
+    "salida.publish_without_approval": "no",
+    "salida.ranking_behavior": "Recalcular el orden con cada integración aprobada.",
+    "salida.failure_behavior": "Mantener la última versión aprobada si falla una validación.",
+    "agente.review_report": "Registrar propuesta, validación y fecha en REVISION.",
+    "agente.forbidden_handoff": "No pedir a Sayri que cree filas, IDs, fórmulas o relaciones técnicas.",
+    "fuente.approved_collaboration_handles": "yodesarrollo",
+    "editorial.standalone_project_id": "_editorial"
+  },
   "content": {
     "brand.name": {
       "section": "header",
@@ -745,6 +784,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 1,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Auditoría 2026-07-15"
@@ -752,7 +792,7 @@
     {
       "date": "2026-06-16",
       "id": "DZqCsasGcp-",
-      "projectId": "",
+      "projectId": "_editorial",
       "type": "carrusel",
       "title": "¿Qué quieres sentir al llegar?",
       "text": "La primera decisión de una residencia no son los metros: es la emoción que debe sostener cada espacio.",
@@ -762,6 +802,7 @@
       "comments": 1,
       "reposts": 0,
       "score": 9,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Insight · El Primer Paso"
@@ -779,6 +820,7 @@
       "comments": 1,
       "reposts": 0,
       "score": 16,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Caso editorial"
@@ -796,6 +838,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 11,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Caso editorial"
@@ -813,6 +856,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 3,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Fecha por confirmar"
@@ -830,6 +874,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 4,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Caso editorial"
@@ -837,7 +882,7 @@
     {
       "date": "2026-05-21",
       "id": "DYmx9a1nAFv",
-      "projectId": "",
+      "projectId": "_editorial",
       "type": "carrusel",
       "title": "Obra de autor, no elefante blanco",
       "text": "Diseñar con identidad también significa proteger el valor patrimonial y evitar metros que pesan más de lo que aportan.",
@@ -847,6 +892,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 2,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Colaboración YoDesarrollo × Aurum"
@@ -854,7 +900,7 @@
     {
       "date": "2026-05-11",
       "id": "DYNExB0lIkc",
-      "projectId": "",
+      "projectId": "_editorial",
       "type": "carrusel",
       "title": "El corazón privado de la casa",
       "text": "Una estancia privada cambia según la vida que debe recibir: juego, trabajo, calma o tiempo en familia.",
@@ -864,6 +910,7 @@
       "comments": 1,
       "reposts": 1,
       "score": 13,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Insight · Perfil de Vida"
@@ -881,6 +928,7 @@
       "comments": 1,
       "reposts": 1,
       "score": 32,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Caso editorial"
@@ -898,6 +946,7 @@
       "comments": 1,
       "reposts": 1,
       "score": 22,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Caso editorial"
@@ -915,6 +964,7 @@
       "comments": 0,
       "reposts": 1,
       "score": 11,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Fecha por confirmar"
@@ -932,6 +982,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 5,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Caso editorial"
@@ -949,6 +1000,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 4,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Caso editorial"
@@ -966,6 +1018,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 5,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Microcaso"
@@ -983,6 +1036,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 7,
+      "approved": true,
       "active": true,
       "featured": false,
       "notes": "Caso editorial"
@@ -1000,6 +1054,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 13,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Fecha por confirmar"
@@ -1017,6 +1072,7 @@
       "comments": 0,
       "reposts": 0,
       "score": 17,
+      "approved": true,
       "active": true,
       "featured": true,
       "notes": "Caso editorial"

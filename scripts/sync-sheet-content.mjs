@@ -14,6 +14,7 @@ const gids = {
   lists: process.env.AURUM_GID_LISTS || "717783492",
   theme: process.env.AURUM_GID_THEME || "67188492",
   social: process.env.AURUM_GID_SOCIAL || "1438801123",
+  system: process.env.AURUM_GID_SYSTEM || "1805533101",
 };
 
 if (!sheetId) {
@@ -92,7 +93,7 @@ async function load(gid, label) {
   return records(parseCsv(await response.text()));
 }
 
-const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, themeRows, socialRows] = await Promise.all([
+const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, themeRows, socialRows, systemRows] = await Promise.all([
   load(gids.content, "CONTENIDO"),
   load(gids.projects, "PROYECTOS"),
   load(gids.services, "SERVICIOS"),
@@ -101,6 +102,26 @@ const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, the
   load(gids.lists, "LISTAS"),
   load(gids.theme, "TEMA"),
   load(gids.social, "PUBLICACIONES"),
+  load(gids.system, "SISTEMA_AGENTE"),
+]);
+
+const system = Object.fromEntries(systemRows
+  .filter((row) => row.grupo && row.clave)
+  .map((row) => [`${row.grupo}.${row.clave}`, row.valor]));
+
+function settingNumber(key, fallback) {
+  const parsed = Number.parseFloat(system[key]);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+const likesWeight = settingNumber("ranking.likes_weight", 1);
+const commentsWeight = settingNumber("ranking.comments_weight", 4);
+const repostsWeight = settingNumber("ranking.reposts_weight", 6);
+const deepCaseCount = settingNumber("ranking.deep_case_count", 4);
+const standaloneProjectId = system["editorial.standalone_project_id"] || "_editorial";
+const approvedInstagramHandles = new Set([
+  system["fuente.instagram_handle"] || "aurumarquitectos",
+  ...normalize(system["fuente.approved_collaboration_handles"]).split(",").map((handle) => handle.trim()).filter(Boolean),
 ]);
 
 const content = Object.fromEntries(contentRows.filter((row) => row.clave).map((row) => [row.clave, {
@@ -128,15 +149,16 @@ const social = socialRows.filter((row) => row["publicación_id"] || row.publicac
     likes,
     comments,
     reposts,
-    score: metric(row.score) || likes + (comments * 4) + (reposts * 6),
-    active: enabled(row.activo),
+    score: (likes * likesWeight) + (comments * commentsWeight) + (reposts * repostsWeight),
+    approved: normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
+    active: enabled(row.activo) && normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
     featured: enabled(row.destacado),
     notes: row.notas || "",
   };
 });
 
 const socialByProject = new Map();
-for (const post of social.filter((item) => item.active && item.projectId)) {
+for (const post of social.filter((item) => item.active && item.projectId && item.projectId !== standaloneProjectId)) {
   const current = socialByProject.get(post.projectId) || { score: 0, likes: 0, comments: 0, reposts: 0, posts: 0 };
   current.score += post.score;
   current.likes += post.likes;
@@ -160,12 +182,13 @@ const rankedProjects = projectRows.filter((row) => row.id).map((row, index) => {
 }).sort((a, b) => b.socialScore - a.socialScore || a.order - b.order).map((project, index) => ({
   ...project,
   rank: index + 1,
-  detailLevel: project.detailPreference === "amplia" ? "deep" : project.detailPreference === "compacta" ? "compact" : index < 4 ? "deep" : "compact",
+  detailLevel: project.detailPreference === "amplia" ? "deep" : project.detailPreference === "compacta" ? "compact" : index < deepCaseCount ? "deep" : "compact",
 }));
 
 const data = {
   version: 1,
   updatedAt: new Date().toISOString(),
+  system,
   content,
   projects: rankedProjects,
   social,
@@ -193,6 +216,27 @@ for (const key of required) {
 }
 if (!data.projects.some((project) => project.active)) throw new Error("Debe existir al menos un proyecto activo.");
 if (!data.services.some((service) => service.active)) throw new Error("Debe existir al menos un servicio activo.");
+
+const publicationIds = social.map((post) => post.id);
+const duplicatePublicationIds = publicationIds.filter((id, index) => publicationIds.indexOf(id) !== index);
+if (duplicatePublicationIds.length) throw new Error(`PUBLICACIONES contiene IDs duplicados: ${[...new Set(duplicatePublicationIds)].join(", ")}`);
+
+const projectIds = new Set(rankedProjects.map((project) => project.id));
+for (const post of social.filter((item) => item.approved)) {
+  if (!post.projectId || (post.projectId !== standaloneProjectId && !projectIds.has(post.projectId))) {
+    throw new Error(`La publicación ${post.id} no tiene un proyecto_id válido.`);
+  }
+  let sourceHandle = "";
+  try {
+    const sourceUrl = new URL(post.href);
+    sourceHandle = sourceUrl.hostname === "www.instagram.com" ? sourceUrl.pathname.split("/").filter(Boolean)[0] || "" : "";
+  } catch {
+    sourceHandle = "";
+  }
+  if (!approvedInstagramHandles.has(sourceHandle)) throw new Error(`La publicación ${post.id} no pertenece a una fuente de Instagram aprobada.`);
+  if (!post.image.startsWith("https://")) throw new Error(`La publicación ${post.id} no tiene una imagen HTTPS pública.`);
+  if (!post.title || !post.text) throw new Error(`La publicación ${post.id} necesita título y copy web.`);
+}
 
 await fs.mkdir(path.dirname(outputPath), { recursive: true });
 await fs.writeFile(outputPath, `${JSON.stringify(data, null, 2)}\n`);
