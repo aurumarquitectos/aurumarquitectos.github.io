@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-15T17:40:12.171Z",
+  "updatedAt": "2026-07-15T18:04:43.451Z",
   "system": {
     "sistema.version": "1.0",
     "fuente.instagram_handle": "aurumarquitectos",
@@ -38,7 +38,11 @@
     "agente.review_report": "Registrar propuesta, validación y fecha en REVISION.",
     "agente.forbidden_handoff": "No pedir a Sayri que cree filas, IDs, fórmulas o relaciones técnicas.",
     "fuente.approved_collaboration_handles": "yodesarrollo",
-    "editorial.standalone_project_id": "_editorial"
+    "editorial.standalone_project_id": "_editorial",
+    "editorial.project_name_rule": "Usar un nombre de proyecto sólo si aparece explícitamente en el caption, hashtag oficial o historia destacada.",
+    "editorial.visual_source_rule": "Toda fotografía debe registrar y abrir la publicación o historia exacta de la que proviene.",
+    "editorial.story_rule": "Las historias destacadas son fuente primaria válida para confirmar nombres y documentar proceso.",
+    "editorial.reel_rule": "Los reels se integran como evidencia visual del proyecto y conservan su enlace exacto."
   },
   "content": {
     "brand.name": {
@@ -616,49 +620,80 @@
       "href": "",
       "image": "",
       "active": true
+    },
+    "hero.imageLink": {
+      "section": "hero",
+      "field": "Fuente de fotografía",
+      "text": "",
+      "href": "https://www.instagram.com/aurumarquitectos/p/DYqVf8tNX9R/",
+      "image": "",
+      "active": false
+    },
+    "patrimony.imageLink": {
+      "section": "patrimonio",
+      "field": "Fuente de fotografía",
+      "text": "",
+      "href": "https://www.instagram.com/aurumarquitectos/p/DWUHttiFMv-/",
+      "image": "",
+      "active": false
+    },
+    "stories.label": {
+      "section": "historias",
+      "field": "Etiqueta de sección",
+      "text": "Historias destacadas",
+      "href": "",
+      "image": "",
+      "active": false
+    },
+    "stories.title": {
+      "section": "historias",
+      "field": "Título",
+      "text": "El proceso también cuenta.",
+      "href": "",
+      "image": "",
+      "active": false
+    },
+    "stories.titleAccent": {
+      "section": "historias",
+      "field": "Título destacado",
+      "text": "Ahora tiene su propia fuente.",
+      "href": "",
+      "image": "",
+      "active": false
+    },
+    "stories.copy": {
+      "section": "historias",
+      "field": "Descripción",
+      "text": "Los destacados conectan cada proyecto con decisiones de obra, recorridos y escenas que no siempre caben en una publicación.",
+      "href": "",
+      "image": "",
+      "active": false
+    },
+    "stories.cta": {
+      "section": "historias",
+      "field": "Acción",
+      "text": "Ver historia destacada",
+      "href": "",
+      "image": "",
+      "active": false
     }
   },
   "projects": [
     {
-      "order": 1,
-      "id": "casa-autor",
-      "name": "Casa de autor",
-      "category": "Residencia · arquitectura a la medida",
-      "description": "Una casa que nace del terreno y se afina en la experiencia diaria de habitarla.",
-      "image": "https://aurumarquitectos.github.io/aurum/social/dudix-6dyco.jpg",
-      "alt": "Residencia contemporánea diseñada por Aurum desde el terreno",
-      "href": "https://www.instagram.com/aurumarquitectos/p/DUdix-6DYCo/",
-      "active": true,
-      "featured": false,
-      "challenge": "Construir identidad sin depender de gestos prestados ni de una moda pasajera.",
-      "response": "Luz, proporción, recorridos y materialidad se diseñan alrededor de una forma específica de vivir.",
-      "result": "Una residencia serena, reconocible y capaz de sostener su valor con el tiempo.",
-      "location": "Sonora",
-      "year": "2026",
-      "detailPreference": "auto",
-      "socialScore": 41,
-      "socialLikes": 41,
-      "socialComments": 0,
-      "socialReposts": 0,
-      "socialPosts": 4,
-      "rank": 1,
-      "detailLevel": "deep"
-    },
-    {
       "order": 2,
-      "id": "casa-lago",
-      "name": "Casa del Lago",
+      "id": "casa-alysa",
+      "name": "Casa Alysa",
       "category": "Residencia · paisaje y clima",
       "description": "Vivir el lago todos los días sin que la orientación sur dicte el confort interior.",
       "image": "https://aurumarquitectos.github.io/aurum/social/dwuhttifmv.jpg",
-      "alt": "Residencia abierta hacia un lago, proyecto Aurum",
+      "alt": "Terraza en segundo piso de Casa Alysa con vista al lago",
       "href": "https://www.instagram.com/aurumarquitectos/p/DWUHttiFMv-/",
       "active": true,
       "featured": false,
       "challenge": "Aprovechar la vista principal y controlar al mismo tiempo la carga solar del sur y del oeste.",
       "response": "Remetimientos, sombra, vanos controlados y una terraza protegida abren la casa sin sacrificar confort.",
       "result": "Sala, comedor y terraza prolongan la vida hacia el paisaje mientras la volumetría protege las áreas privadas.",
-      "location": "Sonora",
+      "location": "Ubicación no publicada",
       "year": "2026",
       "detailPreference": "auto",
       "socialScore": 38,
@@ -666,7 +701,7 @@
       "socialComments": 1,
       "socialReposts": 2,
       "socialPosts": 3,
-      "rank": 2,
+      "rank": 1,
       "detailLevel": "deep"
     },
     {
@@ -677,7 +712,7 @@
       "description": "Estar juntos sin dejar de tener un mundo propio.",
       "image": "https://aurumarquitectos.github.io/aurum/social/dzxvhqolcwt.jpg",
       "alt": "Cocina y comedor de Casa Zara, proyecto Aurum",
-      "href": "https://www.instagram.com/aurumarquitectos/p/DZn9u4CjfMP/",
+      "href": "https://www.instagram.com/aurumarquitectos/p/DZXvHQOlCwT/",
       "active": true,
       "featured": false,
       "challenge": "Recibir reuniones grandes y permitir que cinco personas vivan intereses distintos sin estorbarse.",
@@ -691,7 +726,7 @@
       "socialComments": 1,
       "socialReposts": 0,
       "socialPosts": 4,
-      "rank": 3,
+      "rank": 2,
       "detailLevel": "deep"
     },
     {
@@ -701,7 +736,7 @@
       "category": "Residencia · privacidad en planta baja",
       "description": "Dos vidas distintas, una misma vista y una casa que no obliga a elegir entre privacidad y convivencia.",
       "image": "https://aurumarquitectos.github.io/aurum/social/dybdtd9fqbh.jpg",
-      "alt": "Diagrama editorial del reto de diseño de Casa Mona",
+      "alt": "Lámina del reto de diseño de Casa Mona",
       "href": "https://www.instagram.com/aurumarquitectos/p/DYBdTd9FQbH/",
       "active": true,
       "featured": false,
@@ -716,33 +751,8 @@
       "socialComments": 1,
       "socialReposts": 1,
       "socialPosts": 1,
-      "rank": 4,
+      "rank": 3,
       "detailLevel": "deep"
-    },
-    {
-      "order": 5,
-      "id": "ajuste-inteligente",
-      "name": "Más inteligencia, mismos metros",
-      "category": "Optimización residencial",
-      "description": "Una mejora de planta que demuestra que el valor no siempre está en construir más.",
-      "image": "https://aurumarquitectos.github.io/aurum/social/dvsh2-tjvbh.jpg",
-      "alt": "Comparativo de optimización de pantry, bodega y estancia",
-      "href": "https://www.instagram.com/aurumarquitectos/p/DVsh2-tjVbH/",
-      "active": true,
-      "featured": false,
-      "challenge": "Corregir circulación y almacenamiento sin aumentar el área construida.",
-      "response": "Reorganizar pantry, bodega y estancia para recuperar claridad y utilidad.",
-      "result": "Más espacio útil y recorridos más directos dentro de la misma huella.",
-      "location": "Sonora",
-      "year": "2026",
-      "detailPreference": "auto",
-      "socialScore": 5,
-      "socialLikes": 5,
-      "socialComments": 0,
-      "socialReposts": 0,
-      "socialPosts": 1,
-      "rank": 5,
-      "detailLevel": "compact"
     },
     {
       "order": 6,
@@ -766,7 +776,82 @@
       "socialComments": 0,
       "socialReposts": 0,
       "socialPosts": 1,
+      "rank": 4,
+      "detailLevel": "deep"
+    },
+    {
+      "order": 1,
+      "id": "unnamed-residence",
+      "name": "Proyecto residencial · nombre no publicado",
+      "category": "Residencia · arquitectura a la medida",
+      "description": "Serie visual de un proyecto residencial cuyo nombre no aparece en las publicaciones originales.",
+      "image": "https://aurumarquitectos.github.io/aurum/social/dudix-6dyco.jpg",
+      "alt": "Fachada de un proyecto residencial sin nombre publicado",
+      "href": "https://www.instagram.com/aurumarquitectos/p/DUdix-6DYCo/",
+      "active": false,
+      "featured": false,
+      "challenge": "La fuente describe una residencia diseñada desde el terreno y la experiencia diaria, pero no publica un nombre de proyecto.",
+      "response": "Las publicaciones hablan de luz, proporción, recorridos y diseño a la medida.",
+      "result": "Se conserva como contenido editorial hasta que Aurum confirme el nombre oficial.",
+      "location": "No publicada",
+      "year": "No publicado",
+      "detailPreference": "compacta",
+      "socialScore": 0,
+      "socialLikes": 0,
+      "socialComments": 0,
+      "socialReposts": 0,
+      "socialPosts": 0,
+      "rank": 5,
+      "detailLevel": "compact"
+    },
+    {
+      "order": 5,
+      "id": "unnamed-adjustment",
+      "name": "Ajuste residencial · nombre no publicado",
+      "category": "Optimización residencial",
+      "description": "Una mejora de planta cuyo proyecto no está nombrado en la publicación original.",
+      "image": "https://aurumarquitectos.github.io/aurum/social/dvsh2-tjvbh.jpg",
+      "alt": "Comparativo de optimización de pantry, bodega y estancia",
+      "href": "https://www.instagram.com/aurumarquitectos/p/DVsh2-tjVbH/",
+      "active": false,
+      "featured": false,
+      "challenge": "Corregir circulación y almacenamiento sin aumentar el área construida.",
+      "response": "Reorganizar pantry, bodega y estancia para recuperar claridad y utilidad.",
+      "result": "Más espacio útil y recorridos más directos dentro de la misma huella.",
+      "location": "No publicada",
+      "year": "No publicado",
+      "detailPreference": "compacta",
+      "socialScore": 0,
+      "socialLikes": 0,
+      "socialComments": 0,
+      "socialReposts": 0,
+      "socialPosts": 0,
       "rank": 6,
+      "detailLevel": "compact"
+    },
+    {
+      "order": 7,
+      "id": "cabana-mary",
+      "name": "Cabaña Mary",
+      "category": "Proyecto en historias destacadas",
+      "description": "Proceso de obra documentado en historias; caso pendiente de ficha editorial completa.",
+      "image": "",
+      "alt": "Proceso de obra de Cabaña Mary",
+      "href": "https://www.instagram.com/stories/highlights/18574770127007334/",
+      "active": false,
+      "featured": false,
+      "challenge": "La historia muestra ajustes y decisiones tomadas durante la obra.",
+      "response": "El destacado conserva el proceso como fuente primaria.",
+      "result": "Pendiente de seleccionar una imagen pública y confirmar la ficha del proyecto.",
+      "location": "No publicada",
+      "year": "No publicado",
+      "detailPreference": "compacta",
+      "socialScore": 0,
+      "socialLikes": 0,
+      "socialComments": 0,
+      "socialReposts": 0,
+      "socialPosts": 0,
+      "rank": 7,
       "detailLevel": "compact"
     }
   ],
@@ -787,7 +872,7 @@
       "approved": true,
       "active": true,
       "featured": false,
-      "notes": "Auditoría 2026-07-15"
+      "notes": "Nombre y proyecto verificados en el caption original."
     },
     {
       "date": "2026-06-16",
@@ -823,7 +908,7 @@
       "approved": true,
       "active": true,
       "featured": true,
-      "notes": "Caso editorial"
+      "notes": "Nombre verificado en el caption original."
     },
     {
       "date": "2026-06-09",
@@ -841,10 +926,10 @@
       "approved": true,
       "active": true,
       "featured": true,
-      "notes": "Caso editorial"
+      "notes": "Fuente exacta de la imagen de portada del proyecto y de la cocina."
     },
     {
-      "date": "",
+      "date": "2026-06-12",
       "id": "DZLWqaXyQhm",
       "projectId": "casa-zara",
       "type": "reel",
@@ -859,7 +944,7 @@
       "approved": true,
       "active": true,
       "featured": false,
-      "notes": "Fecha por confirmar"
+      "notes": "Nombre verificado en el reel original."
     },
     {
       "date": "2026-05-22",
@@ -877,7 +962,7 @@
       "approved": true,
       "active": true,
       "featured": false,
-      "notes": "Caso editorial"
+      "notes": "Fuente exacta de la imagen hero de la landing."
     },
     {
       "date": "2026-05-21",
@@ -931,14 +1016,14 @@
       "approved": true,
       "active": true,
       "featured": true,
-      "notes": "Caso editorial"
+      "notes": "Nombre verificado con #au_casamona en el caption original."
     },
     {
       "date": "2026-03-25",
       "id": "DWUHttiFMv-",
-      "projectId": "casa-lago",
+      "projectId": "casa-alysa",
       "type": "carrusel",
-      "title": "Casa del Lago · vivir el paisaje",
+      "title": "Casa Alysa · vivir el paisaje",
       "text": "Terraza, comedor y sala se conectan para que el lago forme parte de la rutina, no solo de la vista.",
       "image": "https://aurumarquitectos.github.io/aurum/social/dwuhttifmv.jpg",
       "href": "https://www.instagram.com/aurumarquitectos/p/DWUHttiFMv-/",
@@ -949,14 +1034,14 @@
       "approved": true,
       "active": true,
       "featured": true,
-      "notes": "Caso editorial"
+      "notes": "Proyecto verificado en el destacado Casa Alysa; la historia muestra la misma terraza."
     },
     {
-      "date": "",
+      "date": "2026-03-19",
       "id": "DWFAdqgAYAx",
-      "projectId": "casa-lago",
+      "projectId": "casa-alysa",
       "type": "reel",
-      "title": "Abrirse al lago sin pagar el costo térmico",
+      "title": "Casa Alysa · abrirse al lago sin perder confort",
       "text": "Sombra, remetimientos y vanos controlados permiten mantener la vista y reducir la carga solar del sur.",
       "image": "https://aurumarquitectos.github.io/aurum/social/dwfadqgayax.jpg",
       "href": "https://www.instagram.com/aurumarquitectos/reel/DWFAdqgAYAx/",
@@ -967,14 +1052,14 @@
       "approved": true,
       "active": true,
       "featured": true,
-      "notes": "Fecha por confirmar"
+      "notes": "Reel del mismo proyecto verificado mediante el destacado Casa Alysa."
     },
     {
       "date": "2026-03-13",
       "id": "DV1GhbyDdLk",
-      "projectId": "casa-lago",
+      "projectId": "casa-alysa",
       "type": "imagen",
-      "title": "La fachada protege; la casa se abre",
+      "title": "Casa Alysa · la fachada protege y la casa se abre",
       "text": "El frente controla la exposición mientras la planta alta se orienta hacia el paisaje.",
       "image": "https://aurumarquitectos.github.io/aurum/social/dv1ghbyddlk.jpg",
       "href": "https://www.instagram.com/aurumarquitectos/p/DV1GhbyDdLk/",
@@ -985,15 +1070,15 @@
       "approved": true,
       "active": true,
       "featured": false,
-      "notes": "Caso editorial"
+      "notes": "Publicación del mismo proyecto verificada contra el destacado Casa Alysa."
     },
     {
       "date": "2026-03-11",
       "id": "DV1J7EcjeO1",
-      "projectId": "casa-autor",
+      "projectId": "_editorial",
       "type": "imagen",
       "title": "Diseño hecho a la medida",
-      "text": "Una residencia de autor se reconoce porque cada decisión pertenece a una vida específica.",
+      "text": "La publicación presenta la identidad de Aurum; no publica un nombre de proyecto.",
       "image": "https://aurumarquitectos.github.io/aurum/social/dv1j7ecjeo1.jpg",
       "href": "https://www.instagram.com/aurumarquitectos/p/DV1J7EcjeO1/",
       "likes": 4,
@@ -1003,12 +1088,12 @@
       "approved": true,
       "active": true,
       "featured": false,
-      "notes": "Caso editorial"
+      "notes": "Reclasificado: pieza de marca, no caso de proyecto."
     },
     {
       "date": "2026-03-10",
       "id": "DVsh2-tjVbH",
-      "projectId": "ajuste-inteligente",
+      "projectId": "_editorial",
       "type": "carrusel",
       "title": "Más inteligencia, mismos metros",
       "text": "Reorganizar circulación y almacenamiento permitió ganar utilidad sin aumentar el área construida.",
@@ -1021,12 +1106,12 @@
       "approved": true,
       "active": true,
       "featured": false,
-      "notes": "Microcaso"
+      "notes": "Microcaso sin nombre de proyecto publicado; no se usa como nombre propio."
     },
     {
       "date": "2026-02-13",
       "id": "DUtNrx9meyb",
-      "projectId": "casa-autor",
+      "projectId": "_editorial",
       "type": "carrusel",
       "title": "La arquitectura también se siente",
       "text": "Luz, proporción y calma convierten el espacio a la medida en una experiencia cotidiana.",
@@ -1039,12 +1124,12 @@
       "approved": true,
       "active": true,
       "featured": false,
-      "notes": "Caso editorial"
+      "notes": "Proyecto visual sin nombre publicado; se conserva como pieza editorial."
     },
     {
-      "date": "",
+      "date": "2026-02-10",
       "id": "DUlR5Lqkmm0",
-      "projectId": "casa-autor",
+      "projectId": "_editorial",
       "type": "reel",
       "title": "Recorrer, vivir, disfrutar",
       "text": "La calidad de una residencia aparece en cómo acompaña el movimiento y la vida de todos los días.",
@@ -1057,12 +1142,12 @@
       "approved": true,
       "active": true,
       "featured": true,
-      "notes": "Fecha por confirmar"
+      "notes": "Reel de proyecto sin nombre publicado; no se agrupa bajo un nombre inventado."
     },
     {
       "date": "2026-02-07",
       "id": "DUdix-6DYCo",
-      "projectId": "casa-autor",
+      "projectId": "_editorial",
       "type": "imagen",
       "title": "Desde el terreno hasta la vida diaria",
       "text": "El proyecto nace del lugar, pero se termina de definir en la experiencia cotidiana de quien lo habita.",
@@ -1075,7 +1160,45 @@
       "approved": true,
       "active": true,
       "featured": true,
-      "notes": "Caso editorial"
+      "notes": "Proyecto sin nombre publicado; no se presenta como Casa de autor."
+    }
+  ],
+  "stories": [
+    {
+      "id": "highlight-cabana-mary",
+      "projectId": "cabana-mary",
+      "name": "Cabaña Mary",
+      "type": "destacado",
+      "image": "",
+      "href": "https://www.instagram.com/stories/highlights/18574770127007334/",
+      "text": "Proceso de obra y decisiones que cambiaron durante la construcción.",
+      "active": true,
+      "approved": true,
+      "notes": "Fuente primaria: historia destacada oficial."
+    },
+    {
+      "id": "highlight-casa-zara",
+      "projectId": "casa-zara",
+      "name": "Casa Zara",
+      "type": "destacado",
+      "image": "https://aurumarquitectos.github.io/aurum/social/dzxvhqolcwt.jpg",
+      "href": "https://www.instagram.com/stories/highlights/17997724154781204/",
+      "text": "Cocina, patio central y escenas del proyecto reunidas por Aurum.",
+      "active": true,
+      "approved": true,
+      "notes": "La historia muestra la cocina del mismo proyecto."
+    },
+    {
+      "id": "highlight-casa-alysa",
+      "projectId": "casa-alysa",
+      "name": "Casa Alysa",
+      "type": "destacado",
+      "image": "https://aurumarquitectos.github.io/aurum/social/dwuhttifmv.jpg",
+      "href": "https://www.instagram.com/stories/highlights/18083144042067542/",
+      "text": "Terraza en segundo piso con vista al lago y decisiones de apertura al paisaje.",
+      "active": true,
+      "approved": true,
+      "notes": "La historia permitió corregir el nombre antes usado como Casa del Lago."
     }
   ],
   "services": [
