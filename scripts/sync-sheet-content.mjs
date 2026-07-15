@@ -15,6 +15,7 @@ const gids = {
   theme: process.env.AURUM_GID_THEME || "67188492",
   social: process.env.AURUM_GID_SOCIAL || "1438801123",
   system: process.env.AURUM_GID_SYSTEM || "1805533101",
+  stories: process.env.AURUM_GID_STORIES || "1805533103",
 };
 
 if (!sheetId) {
@@ -93,7 +94,7 @@ async function load(gid, label) {
   return records(parseCsv(await response.text()));
 }
 
-const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, themeRows, socialRows, systemRows] = await Promise.all([
+const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, themeRows, socialRows, systemRows, storyRows] = await Promise.all([
   load(gids.content, "CONTENIDO"),
   load(gids.projects, "PROYECTOS"),
   load(gids.services, "SERVICIOS"),
@@ -103,6 +104,7 @@ const [contentRows, projectRows, serviceRows, methodRows, faqRows, listRows, the
   load(gids.theme, "TEMA"),
   load(gids.social, "PUBLICACIONES"),
   load(gids.system, "SISTEMA_AGENTE"),
+  load(gids.stories, "HISTORIAS"),
 ]);
 
 const system = Object.fromEntries(systemRows
@@ -157,6 +159,19 @@ const social = socialRows.filter((row) => row["publicación_id"] || row.publicac
   };
 });
 
+const stories = storyRows.filter((row) => row.historia_id).map((row) => ({
+  id: row.historia_id,
+  projectId: row.proyecto_id || "",
+  name: row.nombre || "",
+  type: row.tipo || "destacado",
+  image: row.imagen || "",
+  href: row.enlace || "",
+  text: row.contexto || "",
+  active: enabled(row.activo) && normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
+  approved: normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
+  notes: row.notas || "",
+}));
+
 const socialByProject = new Map();
 for (const post of social.filter((item) => item.active && item.projectId && item.projectId !== standaloneProjectId)) {
   const current = socialByProject.get(post.projectId) || { score: 0, likes: 0, comments: 0, reposts: 0, posts: 0 };
@@ -192,6 +207,7 @@ const data = {
   content,
   projects: rankedProjects,
   social,
+  stories,
   services: serviceRows.filter((row) => row["título"] || row.titulo).map((row, index) => ({
     order: order(row.orden, index + 1), number: normalize(row["número"] || row.numero).padStart(2, "0"),
     title: row["título"] || row.titulo, text: row.texto, active: enabled(row.activo),
@@ -238,6 +254,21 @@ for (const post of social.filter((item) => item.approved)) {
   if (!post.title || !post.text) throw new Error(`La publicación ${post.id} necesita título y copy web.`);
 }
 
+for (const story of stories.filter((item) => item.approved)) {
+  if (!story.projectId || !projectIds.has(story.projectId)) {
+    throw new Error(`La historia ${story.id} no tiene un proyecto_id válido.`);
+  }
+  let sourceHandle = "";
+  try {
+    const sourceUrl = new URL(story.href);
+    sourceHandle = sourceUrl.hostname === "www.instagram.com" ? sourceUrl.pathname.split("/").filter(Boolean)[0] || "" : "";
+  } catch {
+    sourceHandle = "";
+  }
+  if (sourceHandle !== "stories") throw new Error(`La historia ${story.id} no enlaza a un destacado oficial de Instagram.`);
+  if (!story.name || !story.text) throw new Error(`La historia ${story.id} necesita nombre y contexto web.`);
+}
+
 await fs.mkdir(path.dirname(outputPath), { recursive: true });
 await fs.writeFile(outputPath, `${JSON.stringify(data, null, 2)}\n`);
-console.log(`Contenido sincronizado: ${data.projects.length} proyectos, ${data.social.length} publicaciones, ${data.services.length} servicios, ${data.faq.length} preguntas.`);
+console.log(`Contenido sincronizado: ${data.projects.length} proyectos, ${data.social.length} publicaciones, ${data.stories.length} historias, ${data.services.length} servicios, ${data.faq.length} preguntas.`);

@@ -29,8 +29,18 @@ const socialGridCount = Number(siteData.system["ranking.social_grid_count"] || 8
 const socialPosts = siteData.social
   .filter((item) => item.active && item.image && item.href)
   .sort((a, b) => b.score - a.score)
-  .filter((item) => item.featured)
+  .filter((item) => item.featured || item.type === "reel")
   .slice(0, socialGridCount);
+const storyHighlights = siteData.stories.filter((item) => item.active && item.href);
+const projectSources = (projectId: string) => [
+  ...siteData.social
+    .filter((item) => item.active && item.projectId === projectId)
+    .sort((a, b) => b.score - a.score)
+    .map((item) => ({ id: item.id, type: item.type, title: item.title, href: item.href })),
+  ...storyHighlights
+    .filter((item) => item.projectId === projectId)
+    .map((item) => ({ id: item.id, type: "historia", title: item.name, href: item.href })),
+];
 
 const themeStyle = {
   "--ink": siteData.theme["color.ink"] || "#171714",
@@ -40,6 +50,21 @@ const themeStyle = {
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
+}
+
+function SourceLinks({ projectId }: { projectId: string }) {
+  const sources = projectSources(projectId);
+  if (!sources.length) return null;
+
+  return (
+    <div className="project-source-links" aria-label="Fuentes verificadas del proyecto">
+      {sources.map((source, index) => (
+        <a href={source.href} target="_blank" rel="noreferrer" key={source.id}>
+          {source.type === "historia" ? "Historia destacada" : `${source.type} ${index + 1}`} <Arrow />
+        </a>
+      ))}
+    </div>
+  );
 }
 
 export default function Home() {
@@ -112,7 +137,9 @@ export default function Home() {
       </div>
 
       <section className="hero" id="inicio">
-        <img className="hero-image" src={image("hero.image")} alt={text("hero.imageAlt")} />
+        <a className="hero-image-source" href={href("hero.imageLink")} target="_blank" rel="noreferrer" aria-label="Ver publicación fuente de la imagen principal">
+          <img className="hero-image" src={image("hero.image")} alt={text("hero.imageAlt")} />
+        </a>
         <div className="hero-shade" />
         <div className="hero-rail">
           <span>{text("hero.rail1")}</span>
@@ -218,6 +245,7 @@ export default function Home() {
               </div>
             </dl>
             <p className="project-source-note">{featuredProject.socialPosts} publicaciones relacionadas · {featuredProject.location} · {featuredProject.year}</p>
+            <SourceLinks projectId={featuredProject.id} />
           </div>
         </article>}
 
@@ -278,6 +306,7 @@ export default function Home() {
                   </div>
                 </dl>
                 <p className="case-study-source">{project.socialPosts} publicaciones relacionadas guiaron la profundidad editorial de este caso.</p>
+                <SourceLinks projectId={project.id} />
               </div>
             </article>
           ))}
@@ -314,6 +343,36 @@ export default function Home() {
                 {text("social.cta")} <Arrow />
               </a>
             </article>
+          ))}
+        </div>
+      </section>}
+
+      {storyHighlights.length > 0 && <section className="story-sources section-pad" id="historias">
+        <div className="story-sources-heading">
+          <div className="section-label light-label">
+            <span>ST</span>
+            <p>{text("stories.label")}</p>
+          </div>
+          <div>
+            <h2>
+              {text("stories.title")}
+              <em>{text("stories.titleAccent")}</em>
+            </h2>
+            <p>{text("stories.copy")}</p>
+          </div>
+        </div>
+        <div className="story-source-grid">
+          {storyHighlights.map((story, index) => (
+            <a className={`story-source-card ${story.image ? "has-image" : ""}`} href={story.href} target="_blank" rel="noreferrer" key={story.id}>
+              {story.image && <img src={story.image} alt={`Historia destacada de ${story.name}`} loading="lazy" />}
+              <div className="story-source-overlay" />
+              <div className="story-source-copy">
+                <span>{String(index + 1).padStart(2, "0")} · {story.type}</span>
+                <h3>{story.name}</h3>
+                <p>{story.text}</p>
+                <strong>{text("stories.cta")} <Arrow /></strong>
+              </div>
+            </a>
           ))}
         </div>
       </section>}
@@ -378,7 +437,9 @@ export default function Home() {
       </section>
 
       <section className="patrimony">
-        <img src={image("patrimony.image")} alt={text("patrimony.imageAlt")} />
+        <a className="patrimony-image-source" href={href("patrimony.imageLink")} target="_blank" rel="noreferrer" aria-label="Ver publicación fuente de Casa Alysa">
+          <img src={image("patrimony.image")} alt={text("patrimony.imageAlt")} />
+        </a>
         <div className="patrimony-shade" />
         <div className="patrimony-content section-pad">
           <p className="eyebrow light">{text("patrimony.eyebrow")}</p>
