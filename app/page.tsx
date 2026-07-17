@@ -126,6 +126,22 @@ export default function Home() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    // Beacon de medición (1 por sesión, sin cookies): la visita a la landing cae a la
+    // pestaña ACTIVIDAD del CRM como lp:vista y el aurum-board la dibuja antes de "Inicio".
+    try {
+      if (sessionStorage.getItem("aurum-lp-beacon")) return;
+      sessionStorage.setItem("aurum-lp-beacon", "1");
+      const fuente = document.referrer ? new URL(document.referrer).hostname : "(directo)";
+      navigator.sendBeacon(
+        "https://script.google.com/macros/s/AKfycbztAKA7K5QwO6k45PqjixYLNppLypzCpoz2KvNIkML8kciBLZVKKoais8__0DnYuEQQOg/exec",
+        JSON.stringify({ tipo: "actividad", origen: "landing", fuente })
+      );
+    } catch {
+      /* la medición jamás rompe la página */
+    }
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
