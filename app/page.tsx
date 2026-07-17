@@ -10,6 +10,41 @@ const entry = (key: string) => content[key] ?? { text: "", href: "", image: "", 
 const text = (key: string) => entry(key).text;
 const href = (key: string) => entry(key).href;
 const image = (key: string) => entry(key).image;
+// Claves nuevas: si la fila existe en el Sheet manda el Sheet (texto vacío = ocultar); si no existe, aplica el respaldo aprobado.
+const textOr = (key: string, fallback: string) => (key in content ? content[key].text : fallback);
+const hrefOr = (key: string, fallback: string) => (key in content && content[key].href ? content[key].href : fallback);
+
+const whatsappFallback =
+  "https://wa.me/526622000340?text=" +
+  encodeURIComponent("Hola, Arq. Sayri Fraijo. Vengo del sitio de Aurum Arquitectos y me gustaría agendar una Sesión de Claridad. Mi caso: ");
+
+const profileStack = [
+  textOr("profile.stack1", "Tu Perfil de Vida: carácter, estilo y atmósferas que definen tu residencia"),
+  textOr("profile.stack2", "Una lectura escrita de cómo quieres sentir, usar y proyectar tu casa — revisada personalmente por un arquitecto del estudio"),
+  textOr("profile.stack3", "Un estimado inicial de alcance e inversión, preparado en privado para tu correo"),
+].filter(Boolean);
+const profileTimeframe = textOr("profile.timeframe", "90 segundos hoy · tu lectura completa en tu correo al día siguiente");
+const profilePromise = textOr(
+  "profile.deliveryPromise",
+  "Tu lectura llega a tu correo al día siguiente, revisada personalmente por un arquitecto del estudio.",
+);
+const profileScarcity = textOr(
+  "profile.scarcity",
+  "Tomamos 6 proyectos residenciales por año para proteger la profundidad de cada uno. La agenda se abre por compatibilidad, no por orden de llegada.",
+);
+const methodCredentials = textOr(
+  "method.credentials",
+  "Estudio de autor en Hermosillo · 10 años diseñando residencias · arquitectura, interiores y comercial bajo una misma intención",
+);
+const sessionNote = textOr("contact.sessionNote", "La Sesión es ideal si ya tienes tu lectura del Perfil de Vida.");
+const guaranteeLabel = textOr("contact.guaranteeLabel", "Nuestra garantía");
+const guaranteeText = textOr(
+  "contact.guarantee",
+  "La Sesión de Claridad termina donde tú decidas. Si eliges no avanzar, las conclusiones son tuyas — sin seguimiento insistente y sin compromiso.",
+);
+const contactUrgency = textOr("contact.urgency", "La agenda de Sesiones de Claridad se abre y se cierra con la capacidad real del estudio.");
+const whatsappLabel = textOr("contact.whatsapp", "Escribir al estudio");
+const whatsappHref = hrefOr("contact.whatsapp", whatsappFallback);
 
 const nav = siteData.lists
   .filter((item) => item.active && item.group === "navegación")
@@ -41,6 +76,20 @@ const projectSources = (projectId: string) => [
     .filter((item) => item.projectId === projectId)
     .map((item) => ({ id: item.id, type: "historia", title: item.name, href: item.href })),
 ];
+
+// Anti-prueba: nunca mostrar contadores en cero ni estados internos en crudo.
+const projectLocation = (location: string) =>
+  location && !/no publicada/i.test(location) ? location : textOr("work.locationFallback", "Ubicación reservada");
+const relatedPostsLabel = (count: number) =>
+  count === 1 ? "1 publicación relacionada" : `${count} publicaciones relacionadas`;
+const projectMetaLine = (project: (typeof projects)[number]) =>
+  [
+    project.socialPosts > 0 ? relatedPostsLabel(project.socialPosts) : null,
+    projectLocation(project.location),
+    project.year,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
 const themeStyle = {
   "--ink": siteData.theme["color.ink"] || "#171714",
@@ -244,7 +293,7 @@ export default function Home() {
                 <dd>{featuredProject.result}</dd>
               </div>
             </dl>
-            <p className="project-source-note">{featuredProject.socialPosts} publicaciones relacionadas · {featuredProject.location} · {featuredProject.year}</p>
+            <p className="project-source-note">{projectMetaLine(featuredProject)}</p>
             <SourceLinks projectId={featuredProject.id} />
           </div>
         </article>}
@@ -287,7 +336,7 @@ export default function Home() {
               <div className="case-study-copy">
                 <div className="case-study-meta">
                   <span>{String(project.rank).padStart(2, "0")} · {project.category}</span>
-                  <span>{project.location} · {project.year}</span>
+                  <span>{projectLocation(project.location)} · {project.year}</span>
                 </div>
                 <h3>{project.name}</h3>
                 <p className="case-study-thesis">{project.description}</p>
@@ -305,7 +354,11 @@ export default function Home() {
                     <dd>{project.result}</dd>
                   </div>
                 </dl>
-                <p className="case-study-source">{project.socialPosts} publicaciones relacionadas guiaron la profundidad editorial de este caso.</p>
+                {project.socialPosts > 0 && (
+                  <p className="case-study-source">
+                    {relatedPostsLabel(project.socialPosts)} {project.socialPosts === 1 ? "guió" : "guiaron"} la profundidad editorial de este caso.
+                  </p>
+                )}
                 <SourceLinks projectId={project.id} />
               </div>
             </article>
@@ -394,10 +447,37 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="fit section-pad">
+        <div className="section-label">
+          <span>04</span>
+          <p>{text("fit.label")}</p>
+        </div>
+        <h2>{text("fit.title")}</h2>
+        <div className="fit-grid">
+          <article>
+            <span className="fit-symbol">+</span>
+            <h3>{text("fit.yesTitle")}</h3>
+            <ul>
+              {fitYes.map((item) => <li key={`${item.group}-${item.order}`}>{item.text}</li>)}
+            </ul>
+          </article>
+          <article>
+            <span className="fit-symbol">−</span>
+            <h3>{text("fit.noTitle")}</h3>
+            <ul>
+              {fitNo.map((item) => <li key={`${item.group}-${item.order}`}>{item.text}</li>)}
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section className="profile-bridge section-pad">
-        <div className="profile-orbit" aria-hidden="true">
-          <span>{text("profile.badgeValue")}</span>
-          <small>{text("profile.badgeLabel")}</small>
+        <div className="profile-orbit-col">
+          <div className="profile-orbit" aria-hidden="true">
+            <span>{text("profile.badgeValue")}</span>
+            <small>{text("profile.badgeLabel")}</small>
+          </div>
+          {profileTimeframe && <p className="profile-timeframe">{profileTimeframe}</p>}
         </div>
         <div className="profile-copy">
           <p className="eyebrow light">{text("profile.eyebrow")}</p>
@@ -408,19 +488,28 @@ export default function Home() {
           <p>
             {text("profile.copy")}
           </p>
+          {profileStack.length > 0 && (
+            <ul className="profile-stack">
+              {profileStack.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          )}
           <div className="profile-actions">
             <a className="button button-cream" href={href("profile.cta")} target="_blank" rel="noreferrer">
               {text("profile.cta")} <Arrow />
             </a>
             <span>{text("profile.note")}</span>
           </div>
+          {profilePromise && <p className="profile-promise">{profilePromise}</p>}
+          {profileScarcity && <p className="profile-scarcity">{profileScarcity}</p>}
         </div>
       </section>
 
       <section className="method section-pad" id="metodo">
         <div className="method-intro">
           <div className="section-label">
-            <span>04</span>
+            <span>05</span>
             <p>{text("method.label")}</p>
           </div>
           <h2>{text("method.title")}</h2>
@@ -434,6 +523,7 @@ export default function Home() {
             </li>
           ))}
         </ol>
+        {methodCredentials && <p className="method-credentials">{methodCredentials}</p>}
       </section>
 
       <section className="patrimony">
@@ -453,30 +543,6 @@ export default function Home() {
           <ul>
             {patrimonyPoints.map((item) => <li key={`${item.group}-${item.order}`}>{item.text}</li>)}
           </ul>
-        </div>
-      </section>
-
-      <section className="fit section-pad">
-        <div className="section-label">
-          <span>05</span>
-          <p>{text("fit.label")}</p>
-        </div>
-        <h2>{text("fit.title")}</h2>
-        <div className="fit-grid">
-          <article>
-            <span className="fit-symbol">+</span>
-            <h3>{text("fit.yesTitle")}</h3>
-            <ul>
-              {fitYes.map((item) => <li key={`${item.group}-${item.order}`}>{item.text}</li>)}
-            </ul>
-          </article>
-          <article>
-            <span className="fit-symbol">−</span>
-            <h3>{text("fit.noTitle")}</h3>
-            <ul>
-              {fitNo.map((item) => <li key={`${item.group}-${item.order}`}>{item.text}</li>)}
-            </ul>
-          </article>
         </div>
       </section>
 
@@ -519,6 +585,19 @@ export default function Home() {
               {text("contact.secondaryCta")} <Arrow />
             </a>
           </div>
+          {sessionNote && <p className="contact-session-note">{sessionNote}</p>}
+          {guaranteeText && (
+            <div className="contact-guarantee">
+              <span>{guaranteeLabel}</span>
+              <p>{guaranteeText}</p>
+            </div>
+          )}
+          {contactUrgency && <p className="contact-urgency">{contactUrgency}</p>}
+          {whatsappLabel && (
+            <a className="contact-whatsapp" href={whatsappHref} target="_blank" rel="noreferrer">
+              {whatsappLabel} <Arrow />
+            </a>
+          )}
         </div>
       </section>
 
