@@ -15,13 +15,13 @@ export const metadata: Metadata = {
       description: "Tu forma de vivir. Hecha arquitectura.",
       type: "website",
       locale: "es_MX",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Aurum Arquitectos — Tu forma de vivir. Hecha arquitectura." }],
+      images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Aurum Arquitectos — Tu forma de vivir. Hecha arquitectura." }],
     },
     twitter: {
       card: "summary_large_image",
       title: "Aurum Arquitectos",
       description: "Tu forma de vivir. Hecha arquitectura.",
-      images: ["/og.png"],
+      images: ["/og.jpg"],
     },
   };
 
