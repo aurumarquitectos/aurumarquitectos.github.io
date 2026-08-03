@@ -30,6 +30,9 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Sync content from Google Sheets
+        # If Sheets is temporarily unavailable, keep building with the last
+        # validated content committed to the repository.
+        continue-on-error: true
         run: node scripts/sync-sheet-content.mjs
         env:
           AURUM_CONTENT_SHEET_ID: ${{ vars.AURUM_CONTENT_SHEET_ID }}

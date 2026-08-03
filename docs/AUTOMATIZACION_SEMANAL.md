@@ -29,6 +29,7 @@ Cada lunes a las 08:00, zona `America/Hermosillo`.
 - No inventar nombres, fechas, ubicaciones, clientes, materiales ni resultados.
 - Bloquear únicamente el registro ambiguo o roto.
 - Nunca borrar contenido estable por una falla temporal de Instagram, Sheets, GitHub o red.
+- Si Google Sheets no responde, GitHub Pages continúa con la última versión validada guardada en el repositorio.
 - Continuar con todos los cambios verificables de la misma ejecución.
 - Informar incidencias en la bitácora; no convertirlas en una tarea obligatoria para Sayri.
 
