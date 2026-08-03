@@ -85,6 +85,14 @@ function metric(value) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function validationState(row) {
+  return normalize(row["validación"] || row.validacion || row["aprobación"] || row.aprobacion).toLowerCase();
+}
+
+function validated(row) {
+  return ["validado", "aprobado"].includes(validationState(row));
+}
+
 async function load(gid, label) {
   const url = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(sheetId)}/export?format=csv&gid=${encodeURIComponent(gid)}`;
   const response = await fetch(url, { headers: { "user-agent": "aurum-content-sync/1.0" } });
@@ -152,8 +160,8 @@ const social = socialRows.filter((row) => row["publicación_id"] || row.publicac
     comments,
     reposts,
     score: (likes * likesWeight) + (comments * commentsWeight) + (reposts * repostsWeight),
-    approved: normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
-    active: enabled(row.activo) && normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
+    validated: validated(row),
+    active: enabled(row.activo) && validated(row),
     featured: enabled(row.destacado),
     notes: row.notas || "",
   };
@@ -167,8 +175,8 @@ const stories = storyRows.filter((row) => row.historia_id).map((row) => ({
   image: row.imagen || "",
   href: row.enlace || "",
   text: row.contexto || "",
-  active: enabled(row.activo) && normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
-  approved: normalize(row["aprobación"] || row.aprobacion).toLowerCase() === "aprobado",
+  active: enabled(row.activo) && validated(row),
+  validated: validated(row),
   notes: row.notas || "",
 }));
 
@@ -238,7 +246,7 @@ const duplicatePublicationIds = publicationIds.filter((id, index) => publication
 if (duplicatePublicationIds.length) throw new Error(`PUBLICACIONES contiene IDs duplicados: ${[...new Set(duplicatePublicationIds)].join(", ")}`);
 
 const projectIds = new Set(rankedProjects.map((project) => project.id));
-for (const post of social.filter((item) => item.approved)) {
+for (const post of social.filter((item) => item.validated)) {
   if (!post.projectId || (post.projectId !== standaloneProjectId && !projectIds.has(post.projectId))) {
     throw new Error(`La publicación ${post.id} no tiene un proyecto_id válido.`);
   }
@@ -254,7 +262,7 @@ for (const post of social.filter((item) => item.approved)) {
   if (!post.title || !post.text) throw new Error(`La publicación ${post.id} necesita título y copy web.`);
 }
 
-for (const story of stories.filter((item) => item.approved)) {
+for (const story of stories.filter((item) => item.validated)) {
   if (!story.projectId || !projectIds.has(story.projectId)) {
     throw new Error(`La historia ${story.id} no tiene un proyecto_id válido.`);
   }

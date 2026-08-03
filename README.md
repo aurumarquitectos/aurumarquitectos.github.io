@@ -1,4 +1,23 @@
-# vinext-starter
+# Aurum Arquitectos · landing editorial automática
+
+Sitio público: https://aurumarquitectos.github.io/
+
+La fuente editorial es Google Sheets y la operación profunda se ejecuta semanalmente. No existe una bandeja de aprobación: el sistema valida, integra, publica y registra los resultados automáticamente. Sayri puede editar el contenido cuando quiera, pero no tiene tareas obligatorias.
+
+- Instrucciones: https://docs.google.com/spreadsheets/d/1Mtk5uJ5i7GXqctZzxjb9RbWZ9FPBmgiO8dE6tGcSFN0/edit?gid=1791027564#gid=1791027564
+- Contenido opcionalmente editable: https://docs.google.com/spreadsheets/d/1Mtk5uJ5i7GXqctZzxjb9RbWZ9FPBmgiO8dE6tGcSFN0/edit?gid=1148000214#gid=1148000214
+- Bitácora automática: https://docs.google.com/spreadsheets/d/1Mtk5uJ5i7GXqctZzxjb9RbWZ9FPBmgiO8dE6tGcSFN0/edit?gid=1805533102#gid=1805533102
+- Operación completa: [docs/AUTOMATIZACION_SEMANAL.md](docs/AUTOMATIZACION_SEMANAL.md)
+
+## Flujo de publicación
+
+- La tarea semanal audita publicaciones, reels e historias de `@aurumarquitectos`.
+- Actualiza automáticamente relaciones, métricas, copy y orden en el Sheet.
+- `scripts/sync-sheet-content.mjs` bloquea registros sin validación técnica.
+- GitHub Pages sincroniza el Sheet cada 15 minutos y en cada cambio de `main`.
+- Si una validación falla, la última versión estable permanece en línea.
+
+## Base técnica
 
 A clean full-stack starter running on
 [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
