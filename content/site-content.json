@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-15T18:04:43.451Z",
+  "updatedAt": "2026-09-01T23:30:24.498Z",
   "system": {
     "sistema.version": "2.0",
     "fuente.instagram_handle": "aurumarquitectos",
@@ -39,10 +39,10 @@
     "agente.forbidden_handoff": "No asignar tareas técnicas ni aprobaciones obligatorias a Sayri.",
     "fuente.approved_collaboration_handles": "yodesarrollo",
     "editorial.standalone_project_id": "_editorial",
-    "editorial.project_name_rule": "Usar un nombre de proyecto sólo si aparece explícitamente en el caption, hashtag oficial o historia destacada.",
+    "editorial.project_name_rule": "Usar un nombre sólo si aparece en caption, hashtag oficial o historia destacada.",
     "editorial.visual_source_rule": "Toda fotografía debe registrar y abrir la publicación o historia exacta de la que proviene.",
     "editorial.story_rule": "Las historias destacadas son fuente primaria válida para confirmar nombres y documentar proceso.",
-    "editorial.reel_rule": "Los reels se integran como evidencia visual del proyecto y conservan su enlace exacto.",
+    "editorial.reel_rule": "Los reels se integran como evidencia visual y conservan su enlace exacto.",
     "automation.weekly_schedule": "lunes 08:00 · America/Hermosillo",
     "automation.scope": "Instagram → Sheet → repositorio → GitHub Pages → verificación pública",
     "automation.sayri_role": "edición_opcional",
@@ -124,8 +124,8 @@
     "hero.primaryCta": {
       "section": "hero",
       "field": "Botón principal",
-      "text": "Crear mi Perfil · 90 s",
-      "href": "https://alexpueblag.github.io/aurum-experiencia/?utm_source=sitio&utm_medium=web&utm_campaign=perfil_de_vida&utm_content=aurum_nuevo_sitio",
+      "text": "Crear mi Perfil de Vida · 90 s",
+      "href": "https://alexpueblag.github.io/aurum-experiencia/?utm_source=sitio&utm_medium=web&utm_campaign=perfil_de_vida&utm_content=hero",
       "image": "",
       "active": true
     },
@@ -204,7 +204,7 @@
     "profile.eyebrow": {
       "section": "perfil",
       "field": "Pre-título",
-      "text": "Oferta inicial · Perfil de Vida Aurum",
+      "text": "Tu lectura inicial · Perfil de Vida Aurum",
       "href": "",
       "image": "",
       "active": true
@@ -228,7 +228,7 @@
     "profile.copy": {
       "section": "perfil",
       "field": "Descripción",
-      "text": "Seis decisiones sencillas convierten referencias dispersas en una lectura inicial de cómo quieres sentir, usar y proyectar tu residencia.",
+      "text": "Seis decisiones visuales —sin cifras que llenar, sin llamadas— convierten referencias dispersas en una lectura inicial de cómo quieres sentir, usar y proyectar tu residencia. Al final dejas tu correo: ahí llega tu lectura, revisada por un arquitecto, al día siguiente.",
       "href": "",
       "image": "",
       "active": true
@@ -236,8 +236,8 @@
     "profile.cta": {
       "section": "perfil",
       "field": "Botón",
-      "text": "Obtener mi lectura inicial",
-      "href": "https://alexpueblag.github.io/aurum-experiencia/",
+      "text": "Crear mi Perfil de Vida · 90 s",
+      "href": "https://alexpueblag.github.io/aurum-experiencia/?utm_source=sitio&utm_medium=web&utm_campaign=perfil_de_vida&utm_content=oferta",
       "image": "",
       "active": true
     },
@@ -356,8 +356,8 @@
     "contact.primaryCta": {
       "section": "contacto",
       "field": "Botón principal",
-      "text": "Crear mi Perfil de Vida",
-      "href": "https://alexpueblag.github.io/aurum-experiencia/",
+      "text": "Crear mi Perfil de Vida · 90 s",
+      "href": "https://alexpueblag.github.io/aurum-experiencia/?utm_source=sitio&utm_medium=web&utm_campaign=perfil_de_vida&utm_content=cierre",
       "image": "",
       "active": true
     },
@@ -680,6 +680,102 @@
       "href": "",
       "image": "",
       "active": false
+    },
+    "profile.stack1": {
+      "section": "perfil",
+      "field": "Entregable 1",
+      "text": "Tu Perfil de Vida: carácter, estilo y atmósferas que definen tu residencia",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.stack2": {
+      "section": "perfil",
+      "field": "Entregable 2",
+      "text": "Una lectura escrita de cómo quieres sentir, usar y proyectar tu casa — revisada personalmente por un arquitecto del estudio",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.stack3": {
+      "section": "perfil",
+      "field": "Entregable 3",
+      "text": "Un estimado inicial de alcance e inversión, preparado en privado para tu correo",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.timeframe": {
+      "section": "perfil",
+      "field": "Dos relojes (bajo el badge)",
+      "text": "90 segundos hoy · tu lectura completa en tu correo al día siguiente",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.deliveryPromise": {
+      "section": "perfil",
+      "field": "Promesa de entrega",
+      "text": "Tu lectura llega a tu correo al día siguiente, revisada personalmente por un arquitecto del estudio.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "profile.scarcity": {
+      "section": "perfil",
+      "field": "Escasez honesta",
+      "text": "Tomamos 6 proyectos residenciales por año para proteger la profundidad de cada uno. La agenda se abre por compatibilidad, no por orden de llegada.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "method.credentials": {
+      "section": "método",
+      "field": "Credenciales del estudio",
+      "text": "Estudio de autor en Hermosillo · 10 años diseñando residencias · arquitectura, interiores y comercial bajo una misma intención",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.sessionNote": {
+      "section": "contacto",
+      "field": "Nota de la Sesión",
+      "text": "La Sesión es ideal si ya tienes tu lectura del Perfil de Vida.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.guaranteeLabel": {
+      "section": "contacto",
+      "field": "Etiqueta de garantía",
+      "text": "Nuestra garantía",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.guarantee": {
+      "section": "contacto",
+      "field": "Garantía",
+      "text": "La Sesión de Claridad termina donde tú decidas. Si eliges no avanzar, las conclusiones son tuyas — sin seguimiento insistente y sin compromiso.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.urgency": {
+      "section": "contacto",
+      "field": "Urgencia de agenda",
+      "text": "La agenda de Sesiones de Claridad se abre y se cierra con la capacidad real del estudio.",
+      "href": "",
+      "image": "",
+      "active": true
+    },
+    "contact.whatsapp": {
+      "section": "contacto",
+      "field": "WhatsApp del estudio",
+      "text": "Escribir al estudio",
+      "href": "https://wa.me/526622000340?text=Hola%2C%20Arq.%20Sayri%20Fraijo.%20Vengo%20del%20sitio%20de%20Aurum%20Arquitectos%20y%20me%20gustar%C3%ADa%20agendar%20una%20Sesi%C3%B3n%20de%20Claridad.%20Mi%20caso%3A%20",
+      "image": "",
+      "active": true
     }
   },
   "projects": [
@@ -1232,8 +1328,8 @@
     {
       "order": 1,
       "number": "01",
-      "title": "Perfil de vida",
-      "text": "Estilo, emociones, hábitos y momentos que importan.",
+      "title": "Perfil de Vida",
+      "text": "Estilo, emociones y hábitos, en 90 segundos. Es el paso que puedes dar hoy: tu lectura abre la conversación de la Sesión de Claridad.",
       "active": true
     },
     {
