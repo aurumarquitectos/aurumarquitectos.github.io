@@ -36,13 +36,20 @@ const methodCredentials = textOr(
   "method.credentials",
   "Estudio de autor en Hermosillo · 10 años diseñando residencias · arquitectura, interiores y comercial bajo una misma intención",
 );
-const sessionNote = textOr("contact.sessionNote", "La Sesión es ideal si ya tienes tu lectura del Perfil de Vida.");
 const guaranteeLabel = textOr("contact.guaranteeLabel", "Nuestra garantía");
 const guaranteeText = textOr(
   "contact.guarantee",
   "La Sesión de Claridad termina donde tú decidas. Si eliges no avanzar, las conclusiones son tuyas — sin seguimiento insistente y sin compromiso.",
 );
 const contactUrgency = textOr("contact.urgency", "La agenda de Sesiones de Claridad se abre y se cierra con la capacidad real del estudio.");
+const directorLabel = textOr("director.label", "Quién lee tu perfil y toma la llamada");
+const directorName = textOr("director.name", "Arq. Sayri Fraijo");
+const directorRole = textOr("director.role", "Directora de Aurum Arquitectos");
+const directorText = textOr(
+  "director.copy",
+  "Cada proyecto lo lleva ella de la primera conversación a la última visita de obra. No hay equipo comercial: hablas con quien va a diseñar tu casa.",
+);
+const directorImage = "director.image" in content ? content["director.image"].image : "";
 const whatsappLabel = textOr("contact.whatsapp", "Escribir al estudio");
 const whatsappHref = hrefOr("contact.whatsapp", whatsappFallback);
 
@@ -59,13 +66,6 @@ const faqs = siteData.faq.filter((item) => item.active).sort((a, b) => a.order -
 const projects = siteData.projects.filter((item) => item.active).sort((a, b) => a.rank - b.rank || a.order - b.order);
 const featuredProject = projects.find((item) => item.featured) ?? projects[0];
 const projectCards = projects.filter((item) => item.id !== featuredProject?.id);
-const deepCaseProjects = projects.filter((item) => item.detailLevel === "deep" && item.id !== featuredProject?.id);
-const socialGridCount = Number(siteData.system["ranking.social_grid_count"] || 8);
-const socialPosts = siteData.social
-  .filter((item) => item.active && item.image && item.href)
-  .sort((a, b) => b.score - a.score)
-  .filter((item) => item.featured || item.type === "reel")
-  .slice(0, socialGridCount);
 const storyHighlights = siteData.stories.filter((item) => item.active && item.href);
 const projectSources = (projectId: string) => [
   ...siteData.social
@@ -224,6 +224,9 @@ export default function Home() {
             <a className="button button-gold" href={href("hero.primaryCta")} target="_blank" rel="noreferrer">
               {text("hero.primaryCta")} <Arrow />
             </a>
+            <a className="button button-outline" href={href("contact.secondaryCta")} target="_blank" rel="noreferrer">
+              {text("contact.secondaryCta")} <Arrow />
+            </a>
             <a className="text-link light-link" href={href("hero.secondaryCta")}>
               {text("hero.secondaryCta")} <span aria-hidden="true">↓</span>
             </a>
@@ -315,14 +318,13 @@ export default function Home() {
         </article>}
 
         <div className="project-pair section-pad">
-          {projectCards.map((project, index) => {
-            const isDeepCase = project.detailLevel === "deep";
-            return (
+          {projectCards.map((project, index) => (
               <article key={project.id} className={`project-card ${index % 2 === 0 ? "project-card-tall" : "project-card-wide"}`}>
                 <a
-                  href={isDeepCase ? `#caso-${project.id}` : project.href}
-                  {...(!isDeepCase ? { target: "_blank", rel: "noreferrer" } : {})}
-                  aria-label={`${isDeepCase ? "Leer caso" : text("work.projectCta") || "Ver proyecto"}: ${project.name}`}
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${text("work.projectCta") || "Ver proyecto"}: ${project.name}`}
                 >
                   <img src={project.image} alt={project.alt} loading="lazy" />
                 </a>
@@ -333,118 +335,10 @@ export default function Home() {
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
               </article>
-            );
-          })}
+          ))}
         </div>
 
-        {deepCaseProjects.length > 0 && <div className="case-library section-pad">
-          <div className="case-library-heading">
-            <p className="eyebrow light">{text("work.libraryLabel")}</p>
-            <h2>{text("work.libraryTitle")}</h2>
-            <p>{text("work.libraryCopy")}</p>
-          </div>
-          {deepCaseProjects.map((project) => (
-            <article className="case-study" id={`caso-${project.id}`} key={`case-${project.id}`}>
-              <a className="case-study-media" href={project.href} target="_blank" rel="noreferrer">
-                <img src={project.image} alt={project.alt} loading="lazy" />
-                <span>{text("work.sourceLabel") || "Ver publicación fuente"} <Arrow /></span>
-              </a>
-              <div className="case-study-copy">
-                <div className="case-study-meta">
-                  <span>{String(project.rank).padStart(2, "0")} · {project.category}</span>
-                  <span>{projectLocation(project.location)} · {project.year}</span>
-                </div>
-                <h3>{project.name}</h3>
-                <p className="case-study-thesis">{project.description}</p>
-                <dl>
-                  <div>
-                    <dt>{text("work.challengeLabel") || "El reto"}</dt>
-                    <dd>{project.challenge}</dd>
-                  </div>
-                  <div>
-                    <dt>{text("work.responseLabel") || "La respuesta"}</dt>
-                    <dd>{project.response}</dd>
-                  </div>
-                  <div>
-                    <dt>{text("work.resultLabel") || "El resultado"}</dt>
-                    <dd>{project.result}</dd>
-                  </div>
-                </dl>
-                {project.socialPosts > 0 && (
-                  <p className="case-study-source">
-                    {relatedPostsLabel(project.socialPosts)} {project.socialPosts === 1 ? "guió" : "guiaron"} la profundidad editorial de este caso.
-                  </p>
-                )}
-                <SourceLinks projectId={project.id} />
-              </div>
-            </article>
-          ))}
-        </div>}
       </section>
-
-      {socialPosts.length > 0 && <section className="social-radar section-pad" id="redes">
-        <div className="social-radar-heading">
-          <div className="section-label">
-            <span>IG</span>
-            <p>{text("social.label")}</p>
-          </div>
-          <div>
-            <h2>
-              {text("social.title")}
-              <em>{text("social.titleAccent")}</em>
-            </h2>
-            <p>{text("social.copy")}</p>
-          </div>
-        </div>
-        <div className="social-grid">
-          {socialPosts.map((post, index) => (
-            <article className={`social-card ${index === 0 ? "social-card-lead" : ""}`} key={post.id}>
-              <a href={post.href} target="_blank" rel="noreferrer" aria-label={`${text("social.cta")}: ${post.title}`}>
-                <img src={post.image} alt={post.title} loading="lazy" />
-              </a>
-              <div className="social-card-meta">
-                <span>{String(index + 1).padStart(2, "0")} · {post.type}</span>
-                <span>Interés verificado</span>
-              </div>
-              <h3>{post.title}</h3>
-              <p>{post.text}</p>
-              <a className="social-card-link" href={post.href} target="_blank" rel="noreferrer">
-                {text("social.cta")} <Arrow />
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>}
-
-      {storyHighlights.length > 0 && <section className="story-sources section-pad" id="historias">
-        <div className="story-sources-heading">
-          <div className="section-label light-label">
-            <span>ST</span>
-            <p>{text("stories.label")}</p>
-          </div>
-          <div>
-            <h2>
-              {text("stories.title")}
-              <em>{text("stories.titleAccent")}</em>
-            </h2>
-            <p>{text("stories.copy")}</p>
-          </div>
-        </div>
-        <div className="story-source-grid">
-          {storyHighlights.map((story, index) => (
-            <a className={`story-source-card ${story.image ? "has-image" : ""}`} href={story.href} target="_blank" rel="noreferrer" key={story.id}>
-              {story.image && <img src={story.image} alt={`Historia destacada de ${story.name}`} loading="lazy" />}
-              <div className="story-source-overlay" />
-              <div className="story-source-copy">
-                <span>{String(index + 1).padStart(2, "0")} · {story.type}</span>
-                <h3>{story.name}</h3>
-                <p>{story.text}</p>
-                <strong>{text("stories.cta")} <Arrow /></strong>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>}
 
       <section className="services section-pad" id="servicios">
         <div className="section-label">
@@ -512,13 +406,25 @@ export default function Home() {
             </ul>
           )}
           <div className="profile-actions">
-            <a className="button button-cream" href={href("profile.cta")} target="_blank" rel="noreferrer">
-              {text("profile.cta")} <Arrow />
+            <a className="text-link light-link" href="#contacto">
+              {text("profile.cta")} <span aria-hidden="true">↓</span>
             </a>
             <span>{text("profile.note")}</span>
           </div>
           {profilePromise && <p className="profile-promise">{profilePromise}</p>}
           {profileScarcity && <p className="profile-scarcity">{profileScarcity}</p>}
+        </div>
+      </section>
+
+      <section className="director section-pad" id="estudio-directora">
+        <div className="director-figure" aria-hidden={!directorImage}>
+          {directorImage ? <img src={directorImage} alt={directorName} loading="lazy" /> : <span>SF</span>}
+        </div>
+        <div className="director-copy">
+          <p className="eyebrow">{directorLabel}</p>
+          <h2>{directorName}</h2>
+          <p className="director-role">{directorRole}</p>
+          <p>{directorText}</p>
         </div>
       </section>
 
@@ -601,7 +507,6 @@ export default function Home() {
               {text("contact.secondaryCta")} <Arrow />
             </a>
           </div>
-          {sessionNote && <p className="contact-session-note">{sessionNote}</p>}
           {guaranteeText && (
             <div className="contact-guarantee">
               <span>{guaranteeLabel}</span>
@@ -616,6 +521,10 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      <a className="wa-float" href={whatsappHref} target="_blank" rel="noreferrer" aria-label="WhatsApp con la Arq. Sayri Fraijo">
+        <i aria-hidden="true" /> WhatsApp
+      </a>
 
       <footer className="footer section-pad">
         <div className="footer-brand">
