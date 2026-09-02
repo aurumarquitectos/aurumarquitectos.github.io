@@ -49,7 +49,7 @@ const directorText = textOr(
   "director.copy",
   "Cada proyecto lo lleva ella de la primera conversación a la última visita de obra. No hay equipo comercial: hablas con quien va a diseñar tu casa.",
 );
-const directorImage = "director.image" in content ? content["director.image"].image : "";
+const directorImage = ("director.image" in content && content["director.image"].image) || "https://aurumarquitectos.github.io/aurum/sayri.jpg";
 const whatsappLabel = textOr("contact.whatsapp", "Escribir al estudio");
 const whatsappHref = hrefOr("contact.whatsapp", whatsappFallback);
 
@@ -381,6 +381,38 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="director section-pad" id="estudio-directora">
+        <div className="director-figure" aria-hidden={!directorImage}>
+          {directorImage ? <img src={directorImage} alt={directorName} loading="lazy" /> : <span>SF</span>}
+        </div>
+        <div className="director-copy">
+          <p className="eyebrow">{directorLabel}</p>
+          <h2>{directorName}</h2>
+          <p className="director-role">{directorRole}</p>
+          <p>{directorText}</p>
+        </div>
+      </section>
+
+      <section className="method section-pad" id="metodo">
+        <div className="method-intro">
+          <div className="section-label">
+            <span>05</span>
+            <p>{text("method.label")}</p>
+          </div>
+          <h2>{text("method.title")}</h2>
+        </div>
+        <ol className="method-list">
+          {method.map((item) => (
+            <li key={item.number}>
+              <span>{item.number}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))}
+        </ol>
+        {methodCredentials && <p className="method-credentials">{methodCredentials}</p>}
+      </section>
+
       <section className="profile-bridge section-pad">
         <div className="profile-orbit-col">
           <div className="profile-orbit" aria-hidden="true">
@@ -414,38 +446,6 @@ export default function Home() {
           {profilePromise && <p className="profile-promise">{profilePromise}</p>}
           {profileScarcity && <p className="profile-scarcity">{profileScarcity}</p>}
         </div>
-      </section>
-
-      <section className="director section-pad" id="estudio-directora">
-        <div className="director-figure" aria-hidden={!directorImage}>
-          {directorImage ? <img src={directorImage} alt={directorName} loading="lazy" /> : <span>SF</span>}
-        </div>
-        <div className="director-copy">
-          <p className="eyebrow">{directorLabel}</p>
-          <h2>{directorName}</h2>
-          <p className="director-role">{directorRole}</p>
-          <p>{directorText}</p>
-        </div>
-      </section>
-
-      <section className="method section-pad" id="metodo">
-        <div className="method-intro">
-          <div className="section-label">
-            <span>05</span>
-            <p>{text("method.label")}</p>
-          </div>
-          <h2>{text("method.title")}</h2>
-        </div>
-        <ol className="method-list">
-          {method.map((item) => (
-            <li key={item.number}>
-              <span>{item.number}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </li>
-          ))}
-        </ol>
-        {methodCredentials && <p className="method-credentials">{methodCredentials}</p>}
       </section>
 
       <section className="patrimony">
