@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aurum Arquitectos</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://aurumarquitectos.github.io/experiencia/">
+<!-- El rebote NO debe degradar el referrer: sin esto, un salto https->https
+     sigue mandando el origen, pero lo dejamos explicito para que ningun
+     default del navegador nos lo recorte a solo-origen. -->
+<meta name="referrer" content="no-referrer-when-downgrade">
+<!-- Respaldo si el JS no corre (webview raro, JS bloqueado): llega al cuestionario
+     sin UTM. Perder la atribucion de un lead es malo; perder el lead es peor. -->
+<meta http-equiv="refresh" content="3;url=https://aurumarquitectos.github.io/experiencia/">
+<style>
+  html,body{margin:0;height:100%;background:#0f0f10;color:#c8c2b8;
+    font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  main{height:100%;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:14px;text-align:center;padding:24px}
+  b{color:#c9a961;letter-spacing:.18em;font-weight:600;font-size:12px}
+  a{color:#c9a961}
+</style>
+</head>
+<body>
+<main>
+  <b>AURUM ARQUITECTOS</b>
+  <div>Abriendo tu experiencia…</div>
+  <noscript><a href="https://aurumarquitectos.github.io/experiencia/">Toca aquí para continuar</a></noscript>
+</main>
+<script>
+/* =====================================================================
+   REBOTE CORTO  ·  aurumarquitectos.github.io/r/
+   =====================================================================
+   POR QUE EXISTE
+   La liga medible del cuestionario mide 96 caracteres y se veia fatal en
+   el bio de Instagram y en los posts. Aqui se acorta a ~36 SIN perder
+   nada de lo que el embudo necesita: las UTM se arman de este lado y
+   viajan al destino igual que si se hubieran escrito a mano.
+
+   LO QUE NO SE PUEDE ROMPER (y como lo cuidamos)
+   1. El Pixel de Meta vive en el DESTINO (experiencia/index.html, id
+      1563269895817275) y dispara PageView alla. El rebote ni lo toca.
+   2. fbclid — Meta lo pega en la URL al hacer clic desde FB/IG. Si el
+      rebote no lo reenvia, capturarOrigen() del destino lo lee vacio y
+      se rompe el match del Pixel. Por eso propagamos TODO parametro
+      entrante que no sea el codigo.
+   3. document.referrer — con location.replace() el destino veria a este
+      rebote como referrer, no a instagram.com. Por eso mandamos el
+      referrer original en 'ro' y el destino lo prefiere cuando detecta
+      que quien lo mando fue este rebote.
+
+   EL CODIGO DE LA LIGA (es el dato, no hay base de datos)
+       <canal><AAMMDD>[-<pieza>]   ig260908 · fb260908-pub3   publicacion con fecha
+       <canal>bio                  igbio · fbbio              liga fija del perfil
+       <canal>_<shortid>           fb_1809876543              post YA publicado
+       <canal>-<pieza>             qr-lona-obra · wa-firma    liga fija con nombre
+   El anio va incluido a proposito: con solo MMDD, una liga de septiembre
+   abierta en enero cae en la campana equivocada y ensucia la atribucion.
+   Dos caracteres de mas valen menos que un lead mal atribuido.
+
+   El shortid va tras guion bajo para que no se confunda con una fecha
+   (ig123456 seria ambiguo) y se copia TAL CUAL, respetando mayusculas:
+   pull_metrics.py cruza <red>-<shortid> exacto contra el post de Meta, y
+   cambiarle una letra romperia la atribucion de esa publicacion.
+
+   La cuarta forma (<canal>-<pieza>, SIN fecha) es para lo que vive meses y
+   recibe trafico todos los dias: un QR en una lona, la firma del correo, una
+   tarjeta. Ponerle fecha lo haria pasar por publicacion de ese dia y ensuciaria
+   la atribucion de esa pieza — misma razon por la que la bio no lleva fecha.
+
+   LOS CANALES
+   La tabla de abajo solo pone nombre bonito a los conocidos. Un canal que NO
+   este en la tabla igual funciona: se usa tal cual como utm_source con medium
+   "otro". Asi el dia que aparezca un canal nuevo —un directorio, un aliado, una
+   revista— la liga se genera sin tocar este archivo ni volver a desplegar.
+
+   COMO SE USA
+       /r/?ig260908            publicacion de IG del 8-sep-2026
+       /r/?fb260908-pub3       misma fecha, pieza pub3 de una serie
+       /r/?fb_1809876543       post de FB ya publicado (edicion retroactiva)
+       /r/?qr-lona-obra        QR impreso en la lona de obra (sin fecha)
+       /r/?wa-firma            firma de WhatsApp
+       /r/bio                  liga permanente del bio de IG (carpeta propia)
+   Convencion identica a yod_audit/liga.py y al generador del aurum-board:
+   utm_campaign=<canal>-<AAAA-MM-DD>, que es lo que pull_metrics.py cruza.
+   Solo fb-/ig- se atribuyen a una publicacion de Meta; los demas canales caen
+   en "Por fuente / campana" del board, que es exactamente donde deben caer.
+   ===================================================================== */
+(function(){
+  var DESTINO = "https://aurumarquitectos.github.io/experiencia/";
+  /* canal -> [utm_source, utm_medium]. Lo que no este aqui igual sirve. */
+  var CANALES = {
+    ig:["instagram","social"],  fb:["facebook","social"],
+    tt:["tiktok","social"],     yt:["youtube","social"],
+    li:["linkedin","social"],   pi:["pinterest","social"],
+    wa:["whatsapp","mensaje"],  em:["correo","email"],
+    qr:["qr","impreso"],        we:["sitio-web","referido"],
+    go:["google","buscador"],   ma:["maps","buscador"]
+  };
+  function canalUTM(c){ return CANALES[c] || [c,"otro"]; }
+
+  function irse(url){
+    /* replace y no href: el rebote no debe quedar en el historial, o el
+       boton "atras" del navegador lo vuelve a disparar en bucle. */
+    try{ location.replace(url); }catch(e){ location.href = url; }
+  }
+
+  try{
+    var q = new URLSearchParams(location.search || "");
+
+    /* El codigo llega de dos formas: incrustado (copias fijas como /r/bio,
+       que definen window.__C) o como primera llave suelta del query (/r/?ig260908). */
+    var codigo = (window.__C || "").trim();
+    if(!codigo){
+      var it = q.keys().next();
+      /* solo si es una llave suelta (?ig260908), no un par (?utm_source=x) */
+      if(!it.done && q.get(it.value) === "") codigo = it.value;
+    }
+    /* Todo a minusculas MENOS el shortid, que va tras el guion bajo: el cruce
+       con Meta es exacto y cambiarle una letra romperia la atribucion del post.
+       (Antes solo se bajaban las 2 primeras letras, asi que un canal escrito con
+       mayusculas —REVISTA260908— se quedaba sin UTM.) */
+    codigo = codigo.replace(/[^A-Za-z0-9_-]/g,"").slice(0,60);
+    var gb = codigo.indexOf("_");
+    codigo = (gb === -1) ? codigo.toLowerCase()
+                         : codigo.slice(0,gb).toLowerCase() + codigo.slice(gb);
+
+    var p = new URLSearchParams();
+
+    /* ---- 1. armar las UTM desde el codigo ---- */
+    /* El canal es PEREZOSO ({2,10}?) a proposito: si fuera avido se tragaria el
+       "bio" de igbio y el canal quedaria como "igbio", que no esta en la tabla. */
+    var m = codigo.match(/^([a-z]{2,10}?)(?:(\d{6})|(bio)|_([A-Za-z0-9]{1,16}))?(?:-([a-z0-9-]{1,48}))?$/);
+    /* Un canal a secas (solo "ig") no dice de que campana viene: sin fecha, sin
+       shortid y sin pieza no hay nada que atribuir, asi que se trata como codigo
+       invalido y el lead llega sin UTM en vez de caer en una campana inventada. */
+    if(m && (m[2] || m[3] || m[4] || m[5])){
+      var canal = m[1], aammdd = m[2], esBio = m[3], shortid = m[4], pieza = m[5];
+      var utm = canalUTM(canal);
+      p.set("utm_source", utm[0]);
+      if(aammdd){
+        var fecha = "20"+aammdd.slice(0,2)+"-"+aammdd.slice(2,4)+"-"+aammdd.slice(4,6);
+        p.set("utm_medium", utm[1]);
+        p.set("utm_campaign", canal+"-"+fecha);
+      }else if(shortid){
+        p.set("utm_medium", utm[1]);
+        p.set("utm_campaign", canal+"-"+shortid);
+      }else if(esBio || pieza === "bio"){
+        /* "ig-bio" y "igbio" son la misma liga escrita distinto: el board arma la
+           primera y liga.py la segunda. Si no cayeran en el mismo medium, el
+           historico del perfil se partiria en dos campanas. */
+        /* La bio no lleva fecha a proposito: vive ahi meses y recibe trafico
+           todos los dias. Con fecha pasaria por publicacion de ese dia y
+           ensuciaria la atribucion de esa pieza. Misma regla que liga_bio(). */
+        p.set("utm_medium", "bio");
+        p.set("utm_campaign", canal+"-bio");
+      }else{
+        /* Pieza permanente con nombre (QR de una lona, firma de correo): la
+           pieza ES la campana, por la misma razon que la bio no lleva fecha. */
+        p.set("utm_medium", utm[1]);
+        p.set("utm_campaign", canal+"-"+pieza);
+      }
+      if(pieza) p.set("utm_content", pieza);
+    }
+
+    /* ---- 2. propagar lo que trae el navegador (fbclid y compania) ----
+       Va despues de las UTM para que un parametro explicito en la liga
+       (raro, pero posible) gane sobre el que derivamos del codigo. */
+    q.forEach(function(v,k){
+      if(k === codigo && v === "") return;      /* el codigo no es un parametro */
+      if(!k || !v) return;
+      p.set(k, v);
+    });
+
+    /* ---- 3. rescatar el referrer original ----
+       Sin esto el destino registraria este rebote como origen y perderiamos
+       "instagram.com" / "facebook.com" en la columna referrer del Sheet.
+       Se manda SOLO EL ORIGEN, no la URL completa: para la atribucion basta
+       saber de que sitio vino, y una URL entera puede arrastrar la ruta o el
+       query de la pagina anterior hasta una columna del Sheet. Menos PII por
+       el mismo dato util (regla "cero PII" del board). */
+    var ref = document.referrer || "";
+    if(ref && ref.indexOf(location.host) === -1){
+      var origen = ref;
+      try{ origen = new URL(ref).origin; }catch(e){}
+      p.set("ro", origen.slice(0,120));
+    }
+
+    var cola = p.toString();
+    irse(DESTINO + (cola ? "?" + cola : ""));
+  }catch(e){
+    /* Cualquier tropiezo: el lead llega igual, sin UTM. */
+    irse("https://aurumarquitectos.github.io/experiencia/");
+  }
+})();
+</script>
+</body>
+</html>
