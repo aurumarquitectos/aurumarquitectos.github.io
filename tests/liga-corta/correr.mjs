@@ -21,7 +21,7 @@ if (faltan.length) {
   process.exit(2);
 }
 
-const SUITES = ["test-rebote", "test-captura", "test-bio", "test-ida-vuelta", "test-canales", "test-embudo"];
+const SUITES = ["test-rebote", "test-captura", "test-bio", "test-ida-vuelta", "test-canales", "test-embudo", "test-ligapy"];
 let total = 0, fallaron = 0;
 for (const s of SUITES) {
   let salida = "", ok = true;

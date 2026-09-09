@@ -19,6 +19,7 @@ hermanos en el home; si falta alguno lo dicen y salen con código 2.
 | `test-ida-vuelta` | Board → liga corta → rebote → destino, comparado contra la liga larga de antes. |
 | `test-canales` | QR, WhatsApp, correo, TikTok… y un canal fuera de la tabla. |
 | `test-embudo` | Lo mismo que ida-vuelta pero por todos los canales y en las dos formas (con fecha y permanente). |
+| `test-ligapy` | La tercera copia: que `liga.py` dé lo mismo que el rebote y que el board, incluidas las ligas fijas y la del perfil. |
 
 ## Las tres tablas que deben decir lo mismo
 
